@@ -106,10 +106,7 @@ public class Visualizer {
 					mainPannel.validate();
 					mainPannel.repaint();
 					int x = i * (frmAlgo.getWidth() - 50) / _data.size() + 50;
-					// int _y = frmAlgo.getHeight() - frmAlgo.getHeight() *
-					// _data.get(i) / max + 20;
 					int _y = frmAlgo.getHeight() - 300 - ((frmAlgo.getHeight() - 300) * _data.get(i)) / max + 20;
-					System.out.println(frmAlgo.getHeight() + " " + _y);
 					lines.get(i).setXX(x);
 					lines.get(i).setYY(_y);
 				}
@@ -325,7 +322,6 @@ public class Visualizer {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		frmAlgo.setSize(screenSize.width * 7 / 8, screenSize.height * 7 / 8);
 		frmAlgo.setMinimumSize(new Dimension(900, 500));
-		// frmAlgo.setResizable(false);
 		frmAlgo.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frmAlgo.getContentPane().setLayout(null);
 
