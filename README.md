@@ -1,1 +1,1 @@
-# Visualize the most famous algorythms
+#Visualize the most famous algorithms
