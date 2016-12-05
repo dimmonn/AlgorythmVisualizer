@@ -317,7 +317,7 @@ public class Visualizer {
 		frmAlgo.getContentPane().setForeground(new Color(128, 0, 128));
 		frmAlgo.getContentPane().setBackground(Color.RED);
 		frmAlgo.setAlwaysOnTop(true);
-		frmAlgo.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\dpolishc\\Downloads\\algo.png"));
+		frmAlgo.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("algo.png")));
 		frmAlgo.setTitle("Algo");
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		frmAlgo.setSize(screenSize.width * 7 / 8, screenSize.height * 7 / 8);
