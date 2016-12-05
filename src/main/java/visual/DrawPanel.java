@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class DrawPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -56,6 +57,6 @@ public class DrawPanel extends JPanel {
 		g2.setStroke(new BasicStroke(1));
 		g2.setColor(color);
 		g2.draw(new Line2D.Float(atomicXReference.get(), atomicYReference.get(), atomicXReference.get(),
-				this.getHeight() - 20));
+				SwingUtilities.getWindowAncestor(this).getHeight() - 260));
 	}
 }

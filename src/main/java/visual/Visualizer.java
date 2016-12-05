@@ -3,6 +3,7 @@ package visual;
 import java.awt.EventQueue;
 import javax.swing.*;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
@@ -74,6 +75,7 @@ public class Visualizer {
 		inputData = new JTextField();
 		inputData.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				frmAlgo.setResizable(false);
 				lines.clear();
 				mainPannel.removeAll();
 				frmAlgo.repaint();
@@ -99,8 +101,11 @@ public class Visualizer {
 					mainPannel.add(lines.get(i));
 					mainPannel.validate();
 					mainPannel.repaint();
-					int x = drawPanel.getWidth() / _data.size() * i + 50;
-					int _y = drawPanel.getHeight() - drawPanel.getHeight() * _data.get(i) / max + 20;
+					int x = i * (frmAlgo.getWidth() - 50) / _data.size() + 50;
+					// int _y = frmAlgo.getHeight() - frmAlgo.getHeight() *
+					// _data.get(i) / max + 20;
+					int _y = frmAlgo.getHeight() - 300 - ((frmAlgo.getHeight() - 300) * _data.get(i)) / max + 20;
+					System.out.println(frmAlgo.getHeight() + " " + _y);
 					lines.get(i).setXX(x);
 					lines.get(i).setYY(_y);
 				}
@@ -131,7 +136,8 @@ public class Visualizer {
 			frmAlgo.repaint();
 			if (chckbxRandomData.isSelected()) {
 				inputData.setEditable(false);
-				for (int i = 0; i < 1800; i++) {
+				frmAlgo.setResizable(false);
+				for (int i = 0; i < frmAlgo.getWidth() - 130; i++) {
 					DrawPanel drawPanel = new DrawPanel();
 					lines.add(drawPanel);
 					mainPannel.add(lines.get(i), BorderLayout.CENTER);
@@ -188,7 +194,7 @@ public class Visualizer {
 							list.forEach(a -> a.setColor(Color.GREEN));
 							followUp(_lines);
 						}
-
+						frmAlgo.setResizable(true);
 					}
 
 					private void followUp(final DrawPanel[] _lines) {
@@ -312,8 +318,10 @@ public class Visualizer {
 		frmAlgo.setAlwaysOnTop(true);
 		frmAlgo.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\dpolishc\\Downloads\\algo.png"));
 		frmAlgo.setTitle("Algo");
-		frmAlgo.setBounds(0, 0, 1900, 1000);
-		frmAlgo.setResizable(false);
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		frmAlgo.setSize(screenSize.width * 7 / 8, screenSize.height * 7 / 8);
+		frmAlgo.setMinimumSize(new Dimension(900, 500));
+		// frmAlgo.setResizable(false);
 		frmAlgo.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frmAlgo.getContentPane().setLayout(null);
 
@@ -378,8 +386,10 @@ public class Visualizer {
 	private void fillInRandomData() {
 		for (int i = 0; i < lines.size(); i++) {
 			int x = 50 + i;
-			int _y = new Random().nextInt(lines.get(i).getHeight());
-			int y = (_y > 20 && _y < lines.get(i).getHeight() - 20) ? _y : 20;
+			int y = frmAlgo.getHeight() - 280
+					- ((frmAlgo.getHeight() - 280) * new Random().nextInt(frmAlgo.getHeight() - 280))
+							/ (frmAlgo.getHeight() - 280)
+					+ 20;
 			lines.get(i).setXX(x);
 			lines.get(i).setYY(y);
 		}
