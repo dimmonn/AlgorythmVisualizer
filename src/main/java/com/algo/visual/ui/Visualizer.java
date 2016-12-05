@@ -1,4 +1,4 @@
-package visual;
+package com.algo.visual.ui;
 
 import java.awt.EventQueue;
 import javax.swing.*;
@@ -19,6 +19,10 @@ import java.util.stream.Collectors;
 
 import java.awt.Toolkit;
 import javax.swing.border.EtchedBorder;
+
+import com.algo.visual.algos.Algos;
+import com.algo.visual.drawing.DrawPanel;
+
 import java.awt.SystemColor;
 import java.awt.BorderLayout;
 import java.awt.Label;

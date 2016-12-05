@@ -1,4 +1,4 @@
-package visual;
+package com.algo.visual.drawing;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
