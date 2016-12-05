@@ -21,7 +21,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>visual.Visualizer</mainClass>
+							<mainClass>com.algo.visual.ui.Visualizer</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
