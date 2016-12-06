@@ -13,13 +13,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
-
 import java.awt.Toolkit;
 import javax.swing.border.EtchedBorder;
 
+import com.algo.visual.algos.AlgoHelper;
 import com.algo.visual.algos.Algos;
 import com.algo.visual.drawing.DrawPanel;
 
@@ -30,8 +28,6 @@ import java.awt.Label;
 public class Visualizer {
 
 	private JFrame frmAlgo;
-	private static final Logger LOGGER = Logger.getLogger(Visualizer.class.getName());
-
 	private JTextField inputData;
 	private JTextArea numOfIfs;
 	private final List<DrawPanel> lines = new ArrayList<>();
@@ -40,11 +36,8 @@ public class Visualizer {
 	private final JPanel mainPannel = new JPanel();
 	private final JSpinner speedDelay = new JSpinner();
 	private final JList<String> algosAvailable = new JList<>();
-	private AtomicInteger[] helper;
-	private AtomicInteger[] _sortable;
-	private int swaps = 0;
-	private int ops = 0;
 	private JTextArea numOfOperations;
+	private final AlgoHelper algoHelper = new AlgoHelper(Visualizer.this);
 
 	/**
 	 * Launch the application.
@@ -53,9 +46,10 @@ public class Visualizer {
 		EventQueue.invokeLater(() -> {
 			try {
 				Visualizer window = new Visualizer();
-				window.frmAlgo.setVisible(true);
+				window.getFrmAlgo().setVisible(true);
 			} catch (Exception e) {
-				LOGGER.log(Level.SEVERE, e.getMessage());
+				// LOGGER.log(Level.SEVERE, e.getMessage());
+				e.printStackTrace();
 			}
 		});
 	}
@@ -80,10 +74,10 @@ public class Visualizer {
 		inputData = new JTextField();
 		inputData.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frmAlgo.setResizable(false);
-				lines.clear();
+				getFrmAlgo().setResizable(false);
+				getLines().clear();
 				mainPannel.removeAll();
-				frmAlgo.repaint();
+				getFrmAlgo().repaint();
 				List<String> data = Arrays.asList(inputData.getText().split(","));
 				final AtomicBoolean isAllowed = new AtomicBoolean();
 				isAllowed.set(true);
@@ -102,16 +96,16 @@ public class Visualizer {
 				for (int i = 0; i < _data.size(); i++) {
 					DrawPanel drawPanel = new DrawPanel();
 					drawPanel.setVisible(true);
-					lines.add(drawPanel);
-					mainPannel.add(lines.get(i));
+					getLines().add(drawPanel);
+					mainPannel.add(getLines().get(i));
 					mainPannel.validate();
 					mainPannel.repaint();
-					int x = i * (frmAlgo.getWidth() - 50) / _data.size() + 50;
-					int _y = frmAlgo.getHeight() - 300 - ((frmAlgo.getHeight() - 300) * _data.get(i)) / max + 20;
-					lines.get(i).setXX(x);
-					lines.get(i).setYY(_y);
+					int x = i * (getFrmAlgo().getWidth() - 50) / _data.size() + 50;
+					int _y = getFrmAlgo().getHeight() - 300 - ((getFrmAlgo().getHeight() - 300) * _data.get(i)) / max
+							+ 20;
+					getLines().get(i).setXX(x);
+					getLines().get(i).setYY(_y);
 				}
-				helper = new AtomicInteger[lines.size()];
 			}
 
 			private void validateDataInput(List<String> data, final AtomicBoolean isAllowed) {
@@ -134,22 +128,21 @@ public class Visualizer {
 
 		chckbxRandomData.addActionListener(e -> {
 			mainPannel.removeAll();
-			lines.clear();
-			frmAlgo.repaint();
+			getLines().clear();
+			getFrmAlgo().repaint();
 			if (chckbxRandomData.isSelected()) {
 				inputData.setEditable(false);
-				frmAlgo.setResizable(false);
-				for (int i = 0; i < frmAlgo.getWidth() - 130; i++) {
+				getFrmAlgo().setResizable(false);
+				for (int i = 0; i < getFrmAlgo().getWidth() - 130; i++) {
 					DrawPanel drawPanel = new DrawPanel();
-					lines.add(drawPanel);
-					mainPannel.add(lines.get(i), BorderLayout.CENTER);
+					getLines().add(drawPanel);
+					mainPannel.add(getLines().get(i), BorderLayout.CENTER);
 					mainPannel.validate();
 				}
-				helper = new AtomicInteger[lines.size()];
 				fillInRandomData();
 				run.setEnabled(true);
 			} else if (!chckbxRandomData.isSelected()) {
-				lines.clear();
+				getLines().clear();
 				mainPannel.removeAll();
 				run.setEnabled(false);
 				inputData.setEditable(true);
@@ -162,27 +155,28 @@ public class Visualizer {
 	}
 
 	private void setUpJframe() {
-		frmAlgo = new JFrame();
-		frmAlgo.getContentPane().setForeground(new Color(128, 0, 128));
-		frmAlgo.getContentPane().setBackground(Color.RED);
-		frmAlgo.setAlwaysOnTop(true);
-		frmAlgo.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("algo.png")));
-		frmAlgo.setTitle("Algo");
+		setFrmAlgo(new JFrame());
+		getFrmAlgo().getContentPane().setForeground(new Color(128, 0, 128));
+		getFrmAlgo().getContentPane().setBackground(Color.RED);
+		getFrmAlgo().setAlwaysOnTop(true);
+		getFrmAlgo().setIconImage(
+				Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("algo.png")));
+		getFrmAlgo().setTitle("Algo");
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		frmAlgo.setSize(screenSize.width * 7 / 8, screenSize.height * 7 / 8);
-		frmAlgo.setMinimumSize(new Dimension(900, 500));
-		frmAlgo.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		frmAlgo.getContentPane().setLayout(null);
+		getFrmAlgo().setSize(screenSize.width * 7 / 8, screenSize.height * 7 / 8);
+		getFrmAlgo().setMinimumSize(new Dimension(900, 500));
+		getFrmAlgo().setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		getFrmAlgo().getContentPane().setLayout(null);
 
 		mainPannel.setBounds(12, 178, 1870, 765);
-		frmAlgo.getContentPane().add(mainPannel);
+		getFrmAlgo().getContentPane().add(mainPannel);
 		mainPannel.setBackground(Color.RED);
 		mainPannel.setLayout(new BorderLayout(0, 0));
 	}
 
 	private void setUpUi(JPanel panel) {
 		panel.setBounds(12, 13, 1870, 163);
-		frmAlgo.getContentPane().add(panel);
+		getFrmAlgo().getContentPane().add(panel);
 		panel.setForeground(new Color(128, 0, 0));
 		panel.setBackground(new Color(189, 183, 107));
 		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(0, 0, 0), new Color(75, 0, 130)));
@@ -202,24 +196,24 @@ public class Visualizer {
 		lblNewLabel.setBounds(22, 65, 74, 44);
 		panel.add(lblNewLabel);
 
-		numOfOperations = new JTextArea();
-		numOfOperations.setBounds(338, 16, 92, 44);
-		panel.add(numOfOperations);
-		numOfOperations.setEditable(false);
-		numOfOperations.setRows(1);
+		setNumOfOperations(new JTextArea());
+		getNumOfOperations().setBounds(338, 16, 92, 44);
+		panel.add(getNumOfOperations());
+		getNumOfOperations().setEditable(false);
+		getNumOfOperations().setRows(1);
 
-		numOfIfs = new JTextArea();
-		numOfIfs.setBounds(126, 16, 82, 44);
-		panel.add(numOfIfs);
-		numOfIfs.setEditable(false);
-		numOfIfs.setRows(1);
+		setNumOfIfs(new JTextArea());
+		getNumOfIfs().setBounds(126, 16, 82, 44);
+		panel.add(getNumOfIfs());
+		getNumOfIfs().setEditable(false);
+		getNumOfIfs().setRows(1);
 
 		run.setBounds(126, 122, 519, 34);
 		panel.add(run);
 
-		speedDelay.setModel(new SpinnerNumberModel(0, 0, 5000, 1));
-		speedDelay.setBounds(743, 19, 44, 33);
-		panel.add(speedDelay);
+		getSpeedDelay().setModel(new SpinnerNumberModel(0, 0, 5000, 1));
+		getSpeedDelay().setBounds(743, 19, 44, 33);
+		panel.add(getSpeedDelay());
 
 		Label lblDelay = new Label("Speed Delay");
 		lblDelay.setBounds(651, 16, 88, 24);
@@ -233,14 +227,14 @@ public class Visualizer {
 	}
 
 	private void fillInRandomData() {
-		for (int i = 0; i < lines.size(); i++) {
+		for (int i = 0; i < getLines().size(); i++) {
 			int x = 50 + i;
-			int y = frmAlgo.getHeight() - 280
-					- ((frmAlgo.getHeight() - 280) * new Random().nextInt(frmAlgo.getHeight() - 280))
-							/ (frmAlgo.getHeight() - 280)
+			int y = getFrmAlgo().getHeight() - 280
+					- ((getFrmAlgo().getHeight() - 280) * new Random().nextInt(getFrmAlgo().getHeight() - 280))
+							/ (getFrmAlgo().getHeight() - 280)
 					+ 20;
-			lines.get(i).setXX(x);
-			lines.get(i).setYY(y);
+			getLines().get(i).setXX(x);
+			getLines().get(i).setYY(y);
 		}
 	}
 
@@ -267,6 +261,38 @@ public class Visualizer {
 		panel.add(algosAvailable);
 	}
 
+	public JSpinner getSpeedDelay() {
+		return speedDelay;
+	}
+
+	public JTextArea getNumOfOperations() {
+		return numOfOperations;
+	}
+
+	private void setNumOfOperations(JTextArea numOfOperations) {
+		this.numOfOperations = numOfOperations;
+	}
+
+	public JTextArea getNumOfIfs() {
+		return numOfIfs;
+	}
+
+	private void setNumOfIfs(JTextArea numOfIfs) {
+		this.numOfIfs = numOfIfs;
+	}
+
+	public JFrame getFrmAlgo() {
+		return frmAlgo;
+	}
+
+	private void setFrmAlgo(JFrame frmAlgo) {
+		this.frmAlgo = frmAlgo;
+	}
+
+	public List<DrawPanel> getLines() {
+		return lines;
+	}
+
 	public final class AlgoRun implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			chckbxRandomData.setEnabled(false);
@@ -281,7 +307,7 @@ public class Visualizer {
 				algos = Algos.SHELL;
 			}
 			if (algos != null) {
-				DrawPanel[] _lines = lines.toArray(new DrawPanel[lines.size()]);
+				DrawPanel[] _lines = getLines().toArray(new DrawPanel[getLines().size()]);
 				doWork(_lines, algos);
 			}
 		}
@@ -291,132 +317,26 @@ public class Visualizer {
 				public void run() {
 					run.setEnabled(false);
 					if (algo == Algos.BUBBLE) {
-						bubbleSort(numOfOperations, _lines, swaps);
+						algoHelper.bubbleSort(getNumOfOperations(), _lines);
 						followUp(_lines);
 					}
 					if (algo == Algos.MERGE) {
-						List<AtomicInteger> sortable = lines.parallelStream().map(DrawPanel::getAtomicYReference)
+						List<AtomicInteger> sortable = getLines().parallelStream().map(DrawPanel::getAtomicYReference)
 								.collect(Collectors.toList());
-						_sortable = sortable.toArray(new AtomicInteger[sortable.size()]);
-						mergeSort(_sortable);
-						swaps = 0;
-						ops = 0;
-						List<DrawPanel> list = Arrays.asList(_lines);
-						list.forEach(a -> a.setColor(Color.GREEN));
+						AtomicInteger[] _sortable = sortable.toArray(new AtomicInteger[sortable.size()]);
+						algoHelper.mergeSort(_sortable);
 						followUp(_lines);
 					}
-					frmAlgo.setResizable(true);
+					getFrmAlgo().setResizable(true);
 				}
 
 				private void followUp(final DrawPanel[] _lines) {
 					Arrays.stream(_lines).forEach(a -> a.setColor(Color.GREEN));
-					frmAlgo.repaint();
+					getFrmAlgo().repaint();
 					run.setEnabled(true);
 					chckbxRandomData.setEnabled(true);
 				}
 
-				private void mergeSort(AtomicInteger[] _sortable) {
-
-					_mergesort(0, _sortable.length - 1);
-				}
-
-				private void _mergesort(int low, int high) {
-
-					if (low < high) {
-						int middle = low + (high - low) / 2;
-						_mergesort(low, middle);
-						_mergesort(middle + 1, high);
-						merge(low, middle, high);
-					}
-				}
-
-				private void merge(int low, int middle, int high) {
-					for (int i = low; i <= high; i++) {
-						helper[i] = new AtomicInteger(_sortable[i].get());
-						numOfOperations.setText(String.valueOf(++ops));
-					}
-					int i = low;
-					int j = middle + 1;
-					int k = low;
-					while (i <= middle && j <= high) {
-						numOfOperations.setText(String.valueOf(++ops));
-						if (helper[i].get() >= helper[j].get()) {
-							slowDown();
-							_sortable[k].set(helper[i].get());
-							numOfIfs.setText(String.valueOf(++swaps));
-							_lines[k].setColor(Color.BLACK);
-							i++;
-							frmAlgo.repaint();
-						} else {
-							slowDown();
-							_sortable[k].set(helper[j].get());
-							numOfIfs.setText(String.valueOf(++swaps));
-							_lines[k].setColor(Color.BLACK);
-							j++;
-							frmAlgo.repaint();
-						}
-						k++;
-					}
-					while (i <= middle) {
-						numOfOperations.setText(String.valueOf(++ops));
-						slowDown();
-						_sortable[k].set(helper[i].get());
-						_lines[k].setColor(Color.BLACK);
-						k++;
-						i++;
-						frmAlgo.repaint();
-					}
-				}
-
-				private void slowDown() {
-					if ((Integer) speedDelay.getValue() >= 1) {
-						sleep((Integer) speedDelay.getValue());
-					}
-				}
-
-				private void bubbleSort(JTextArea numOfOperations, final DrawPanel[] _lines, int swaps) {
-					for (int i = 0; i < _lines.length - 1; i++) {
-						for (int j = 0; j < _lines.length - 1; j++) {
-							numOfOperations.setText(String.valueOf(++ops));
-							if (_lines[j].getHHeight() > _lines[j + 1].getHHeight()) {
-								swap(_lines, j, j + 1, swaps++);
-							}
-						}
-						_lines[_lines.length - 1 - i].setColor(Color.BLACK);
-					}
-				}
-
-				private void swap(final DrawPanel[] _lines, int i, int j, int swaps) {
-					DrawPanel tmp = _lines[j];
-					_lines[j] = _lines[i];
-					_lines[i] = tmp;
-					numOfIfs.setText(String.valueOf(swaps));
-					int deltaJ = _lines[j].getXX();
-					int deltaI = _lines[i].getXX();
-					_lines[i].setColor(Color.BLACK);
-					_lines[j].setColor(Color.BLACK);
-					moveSwap(_lines[j].getAtomicXReference(), _lines[i].getAtomicXReference(), deltaJ, deltaI);
-					_lines[i].setColor(Color.YELLOW);
-					_lines[j].setColor(Color.YELLOW);
-				}
-
-				private void moveSwap(AtomicInteger atomicInteger, AtomicInteger atomicInteger2, int deltaJ,
-						int deltaI) {
-					for (int k = deltaJ; k <= deltaI; k++) {
-						atomicInteger.set(k);
-						atomicInteger2.set(deltaI - (k - deltaJ));
-						frmAlgo.repaint();
-						slowDown();
-					}
-				}
-
-				private void sleep(int ms) {
-					try {
-						Thread.sleep(ms);
-					} catch (InterruptedException e1) {
-						LOGGER.log(Level.SEVERE, e1.getMessage());
-					}
-				}
 			}).start();
 		}
 	}
