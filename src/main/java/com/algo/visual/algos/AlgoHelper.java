@@ -24,13 +24,17 @@ public class AlgoHelper {
     public void mergeSort(AtomicInteger[] _sortable) {
         swaps = 0;
         ops = 0;
-        if (helper == null) {
-            this._sortable = _sortable;
-            helper = new AtomicInteger[_sortable.length];
-        }
+        lazyLoadWhatToSort(_sortable);
         _mergesort(0, _sortable.length - 1);
         helper = null;
     }
+
+	public void lazyLoadWhatToSort(AtomicInteger[] _sortable) {
+		if (helper == null) {
+            this._sortable = _sortable;
+            helper = new AtomicInteger[_sortable.length];
+        }
+	}
 
     private void slowDown() {
         if ((Integer) visualizer.getSpeedDelay().getValue() >= 1) {
@@ -57,10 +61,7 @@ public class AlgoHelper {
     }
 
     private void merge(int low, int middle, int high) {
-        for (int i = low; i <= high; i++) {
-            helper[i] = new AtomicInteger(_sortable[i].get());
-            visualizer.getNumOfOperations().setText(String.valueOf(++ops));
-        }
+        prepareHelper(low, high);
         int i = low;
         int j = middle + 1;
         int k = low;
@@ -84,12 +85,19 @@ public class AlgoHelper {
         }
     }
 
+	public void prepareHelper(int low, int high) {
+		for (int i = low; i <= high; i++) {
+            helper[i] = new AtomicInteger(_sortable[i].get());
+            visualizer.getNumOfOperations().setText(String.valueOf(++ops));
+        }
+	}
+
     private int injectValue(int j, int k) {
         slowDown();
         _sortable[k].set(helper[j].get());
         visualizer.getNumOfIfs().setText(String.valueOf(++swaps));
-        getKline(k).setColor(Color.BLACK);
         j++;
+        getKline(k).setColor(Color.BLACK);
         visualizer.getFrmAlgo().repaint();
         return j;
     }
@@ -99,7 +107,9 @@ public class AlgoHelper {
     }
 
     public void bubbleSort(JTextArea numOfOperations, final DrawPanel[] _lines) {
-        for (int i = 0; i < _lines.length - 1; i++) {
+        ops = 0;
+        swaps = 0;
+    	for (int i = 0; i < _lines.length - 1; i++) {
             for (int j = 0; j < _lines.length - 1; j++) {
                 numOfOperations.setText(String.valueOf(++ops));
                 if (_lines[j].getHHeight() > _lines[j + 1].getHHeight()) {
@@ -108,8 +118,6 @@ public class AlgoHelper {
             }
             _lines[_lines.length - 1 - i].setColor(Color.BLACK);
         }
-        ops = 0;
-        swaps = 0;
     }
 
     private void swap(final DrawPanel[] _lines, int i, int j, int swaps) {
