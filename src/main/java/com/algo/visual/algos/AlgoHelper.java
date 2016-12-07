@@ -22,8 +22,7 @@ public class AlgoHelper {
 	}
 
 	public void mergeSort(AtomicInteger[] _sortable) {
-		swaps = 0;
-		ops = 0;
+		startCounter();
 		lazyLoadWhatToSort(_sortable);
 		_mergesort(0, _sortable.length - 1);
 		helper = null;
@@ -119,8 +118,7 @@ public class AlgoHelper {
 	}
 
 	public void bubbleSort(JTextArea numOfOperations, final DrawPanel[] _lines) {
-		ops = 0;
-		swaps = 0;
+		startCounter();
 		for (int i = 0; i < _lines.length - 1; i++) {
 			for (int j = 0; j < _lines.length - 1; j++) {
 				numOfOperations.setText(String.valueOf(++ops));
@@ -156,24 +154,31 @@ public class AlgoHelper {
 	}
 
 	public void shell(final DrawPanel[] input) {
+		startCounter();
 		int increment = input.length / 2;
 		while (increment > 0) {
 			for (int i = increment; i < input.length; i++) {
 				int j = i;
+				visualizer.getNumOfOperations().setText(String.valueOf(++ops));
 				DrawPanel temp = new DrawPanel(input[i]);
 				while (j >= increment && input[j - increment].getYY() < temp.getYY()) {
+					visualizer.getNumOfIfs().setText(String.valueOf(++swaps));
 					slowDown();
-					input[j].setColor(Color.BLACK);
+					input[j].setColor(Color.YELLOW);
+
 					int tmpX = input[j - increment].getXX();
 					int tmpXTo = input[j].getXX();
+
 					for (int k = tmpX; k <= tmpXTo; k++) {
 						slowDown();
 						input[j - increment].setColor(Color.BLACK);
 						input[j - increment].setXX(k);
 						visualizer.getFrmAlgo().repaint();
 					}
-					slowDown();
+
 					input[j - increment].setXX(tmpX);
+					input[j - increment].setColor(Color.BLACK);
+					input[j].setColor(Color.BLACK);
 					input[j].setYY(input[j - increment].getYY());
 					input[j].setColor(Color.YELLOW);
 					j = j - increment;
@@ -181,13 +186,23 @@ public class AlgoHelper {
 				}
 				slowDown();
 				input[j].setYY(temp.getYY());
+				input[j].setColor(Color.YELLOW);
 				visualizer.getFrmAlgo().repaint();
 			}
 			if (increment == 2) {
+				visualizer.getNumOfOperations().setText(String.valueOf(++swaps));
 				increment = 1;
 			} else {
+				visualizer.getNumOfOperations().setText(String.valueOf(++swaps));
 				increment *= (5.0 / 11);
 			}
 		}
+	}
+
+	public void startCounter() {
+		ops = 0;
+		swaps = 0;
+		visualizer.getNumOfIfs().setText(String.valueOf(0));
+		visualizer.getNumOfOperations().setText(String.valueOf(0));
 	}
 }
