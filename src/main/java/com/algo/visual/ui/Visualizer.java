@@ -114,7 +114,7 @@ public class Visualizer {
 						if (!Character.isDigit(d.charAt(i))) {
 							JOptionPane optionPane = new JOptionPane();
 							JDialog dialog = optionPane.createDialog("Warning");
-							dialog.setAlwaysOnTop(true);
+							dialog.setAlwaysOnTop(false);
 							dialog.setVisible(true);
 							isAllowed.set(false);
 						}
