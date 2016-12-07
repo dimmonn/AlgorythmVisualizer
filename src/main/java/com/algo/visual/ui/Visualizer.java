@@ -319,8 +319,13 @@ public class Visualizer {
 					if (algo == Algos.BUBBLE) {
 						algoHelper.bubbleSort(getNumOfOperations(), _lines);
 						followUp(_lines);
-					}
-					if (algo == Algos.MERGE) {
+					} else if (algo == Algos.INSERTION) {
+						algoHelper.innsertionSort(numOfOperations, _lines);
+						followUp(_lines);
+					} else if (algo == Algos.SHELL) {
+						algoHelper.shell(_lines);
+						followUp(_lines);
+					} else if (algo == Algos.MERGE) {
 						List<AtomicInteger> sortable = getLines().parallelStream().map(DrawPanel::getAtomicYReference)
 								.collect(Collectors.toList());
 						AtomicInteger[] _sortable = sortable.toArray(new AtomicInteger[sortable.size()]);

@@ -12,11 +12,18 @@ import javax.swing.SwingUtilities;
 public class DrawPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Color color;
-	private final AtomicInteger atomicXReference = new AtomicInteger();
-	private final AtomicInteger atomicYReference = new AtomicInteger();
+	private AtomicInteger atomicXReference = new AtomicInteger();
+	private AtomicInteger atomicYReference = new AtomicInteger();
 
 	public DrawPanel() {
 		this.color = Color.YELLOW;
+	}
+
+	public DrawPanel(DrawPanel d) {
+		this.atomicXReference = new AtomicInteger(d.getAtomicXReference().get());
+		this.atomicYReference = new AtomicInteger(d.getAtomicYReference().get());
+		this.color = d.color;
+
 	}
 
 	public AtomicInteger getAtomicXReference() {
@@ -47,7 +54,7 @@ public class DrawPanel extends JPanel {
 		return atomicXReference.get();
 	}
 
-	private int getYY() {
+	public int getYY() {
 		return atomicYReference.get();
 	}
 
