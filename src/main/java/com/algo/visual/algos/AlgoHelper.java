@@ -148,10 +148,10 @@ public class AlgoHelper {
 
 	private void moveSwap(AtomicInteger atomicInteger, AtomicInteger atomicInteger2, int deltaJ, int deltaI) {
 		for (int k = deltaJ; k <= deltaI; k++) {
+			slowDown();
 			atomicInteger.set(k);
 			atomicInteger2.set(deltaI - (k - deltaJ));
 			visualizer.getFrmAlgo().repaint();
-			slowDown();
 		}
 	}
 
@@ -163,14 +163,24 @@ public class AlgoHelper {
 				DrawPanel temp = new DrawPanel(input[i]);
 				while (j >= increment && input[j - increment].getYY() < temp.getYY()) {
 					slowDown();
-					input[j].setColor(Color.YELLOW);
+					input[j].setColor(Color.BLACK);
+					int tmpX = input[j - increment].getXX();
+					int tmpXTo = input[j].getXX();
+					for (int k = tmpX; k <= tmpXTo; k++) {
+						slowDown();
+						input[j - increment].setColor(Color.BLACK);
+						input[j - increment].setXX(k);
+						visualizer.getFrmAlgo().repaint();
+					}
+					slowDown();
+					input[j - increment].setXX(tmpX);
 					input[j].setYY(input[j - increment].getYY());
+					input[j].setColor(Color.YELLOW);
 					j = j - increment;
 					visualizer.getFrmAlgo().repaint();
 				}
 				slowDown();
 				input[j].setYY(temp.getYY());
-				input[j].setColor(Color.BLACK);
 				visualizer.getFrmAlgo().repaint();
 			}
 			if (increment == 2) {
