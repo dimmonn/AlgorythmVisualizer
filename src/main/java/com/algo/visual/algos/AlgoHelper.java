@@ -169,7 +169,7 @@ public class AlgoHelper {
 					int tmpX = input[j - increment].getXX();
 					int tmpXTo = input[j].getXX();
 
-					for (int k = tmpX; k <= tmpXTo; k++) {
+					for (int k = tmpX; k <= tmpXTo; k += 40) {
 						slowDown();
 						input[j - increment].setColor(Color.BLACK);
 						input[j - increment].setXX(k);
@@ -180,7 +180,6 @@ public class AlgoHelper {
 					input[j - increment].setColor(Color.BLACK);
 					input[j].setColor(Color.BLACK);
 					input[j].setYY(input[j - increment].getYY());
-					input[j].setColor(Color.YELLOW);
 					j = j - increment;
 					visualizer.getFrmAlgo().repaint();
 				}
