@@ -164,21 +164,19 @@ public class AlgoHelper {
 				while (j >= increment && input[j - increment].getYY() < temp.getYY()) {
 					visualizer.getNumOfIfs().setText(String.valueOf(++swaps));
 					slowDown();
-					input[j].setColor(Color.YELLOW);
+					input[j].setColor(Color.BLACK);
 
 					int tmpX = input[j - increment].getXX();
 					int tmpXTo = input[j].getXX();
 
 					for (int k = tmpX; k <= tmpXTo; k += 40) {
 						slowDown();
-						input[j - increment].setColor(Color.BLACK);
 						input[j - increment].setXX(k);
 						visualizer.getFrmAlgo().repaint();
 					}
 
 					input[j - increment].setXX(tmpX);
 					input[j - increment].setColor(Color.BLACK);
-					input[j].setColor(Color.BLACK);
 					input[j].setYY(input[j - increment].getYY());
 					j = j - increment;
 					visualizer.getFrmAlgo().repaint();
