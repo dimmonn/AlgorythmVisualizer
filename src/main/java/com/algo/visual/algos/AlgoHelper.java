@@ -159,38 +159,35 @@ public class AlgoHelper {
 		while (increment > 0) {
 			for (int i = increment; i < input.length; i++) {
 				int j = i;
-				visualizer.getNumOfOperations().setText(String.valueOf(++ops));
 				DrawPanel temp = new DrawPanel(input[i]);
 				while (j >= increment && input[j - increment].getYY() < temp.getYY()) {
-					visualizer.getNumOfIfs().setText(String.valueOf(++swaps));
+					visualizer.getNumOfOperations().setText(String.valueOf(++ops));
 					slowDown();
 					input[j].setColor(Color.BLACK);
-
-					int tmpX = input[j - increment].getXX();
-					int tmpXTo = input[j].getXX();
-
-					for (int k = tmpX; k <= tmpXTo; k += 40) {
+					int tmpFrom = input[j - increment].getXX();
+					int tmpTo = input[j].getXX();
+					input[j - increment].setColor(Color.BLACK);
+					for (int k = tmpFrom; k <= tmpTo; k += 40) {
 						slowDown();
 						input[j - increment].setXX(k);
 						visualizer.getFrmAlgo().repaint();
 					}
-
-					input[j - increment].setXX(tmpX);
-					input[j - increment].setColor(Color.BLACK);
+					input[j].setColor(Color.BLACK);
 					input[j].setYY(input[j - increment].getYY());
+					input[j - increment].setXX(tmpFrom);
 					j = j - increment;
 					visualizer.getFrmAlgo().repaint();
 				}
 				slowDown();
 				input[j].setYY(temp.getYY());
-				input[j].setColor(Color.YELLOW);
+				input[j].setColor(Color.GREEN);
 				visualizer.getFrmAlgo().repaint();
 			}
 			if (increment == 2) {
-				visualizer.getNumOfOperations().setText(String.valueOf(++swaps));
+				visualizer.getNumOfIfs().setText(String.valueOf(++swaps));
 				increment = 1;
 			} else {
-				visualizer.getNumOfOperations().setText(String.valueOf(++swaps));
+				visualizer.getNumOfIfs().setText(String.valueOf(++swaps));
 				increment *= (5.0 / 11);
 			}
 		}
