@@ -39,6 +39,10 @@ public class Visualizer {
 	private JTextArea numOfOperations;
 	private final AlgoHelper algoHelper = new AlgoHelper(Visualizer.this);
 
+	public JCheckBox getChckbxRandomData() {
+		return chckbxRandomData;
+	}
+
 	/**
 	 * Launch the application.
 	 */

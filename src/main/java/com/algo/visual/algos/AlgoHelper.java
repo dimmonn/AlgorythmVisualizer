@@ -167,7 +167,8 @@ public class AlgoHelper {
 					int tmpFrom = input[j - increment].getXX();
 					int tmpTo = input[j].getXX();
 					input[j - increment].setColor(Color.BLACK);
-					for (int k = tmpFrom; k <= tmpTo; k += 40) {
+					for (int k = tmpFrom; k <= tmpTo; k = (!visualizer.getChckbxRandomData().isSelected()) ? k + 1
+							: k + 40) {
 						slowDown();
 						input[j - increment].setXX(k);
 						visualizer.getFrmAlgo().repaint();
