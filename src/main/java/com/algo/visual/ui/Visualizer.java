@@ -224,7 +224,6 @@ public class Visualizer {
 		getFrmAlgo().setSize(screenSize.width * 5 / 6, screenSize.height * 5 / 6);
 		getFrmAlgo().setMinimumSize(new Dimension(900, 500));
 		getFrmAlgo().setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		// getFrmAlgo().getContentPane().setLayout(null);
 		mainBorder = new JPanel();
 		mainBorder.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Sort Visualization",
 				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
