@@ -16,7 +16,7 @@ public class DrawPanel extends JPanel {
 	private AtomicInteger atomicYReference = new AtomicInteger();
 
 	public DrawPanel() {
-		this.color = Color.YELLOW;
+		this.color = Color.BLUE;
 	}
 
 	public DrawPanel(DrawPanel d) {
