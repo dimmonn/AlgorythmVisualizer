@@ -236,11 +236,11 @@ public class Visualizer {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Algorithm Complexity",
 				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(831, 13, 584, 153);
+		panel.setBounds(831, 13, 584, 143);
 		configPanel.add(panel);
 		panel.setLayout(null);
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(6, 77, 569, 63);
+		scrollPane.setBounds(12, 67, 569, 63);
 		panel.add(scrollPane);
 		table.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		table.setRowHeight(table.getRowHeight() + 24);
