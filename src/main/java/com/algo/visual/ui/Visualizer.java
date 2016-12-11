@@ -24,6 +24,11 @@ import java.awt.Label;
 import javax.swing.border.TitledBorder;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import javax.swing.table.DefaultTableModel;
+import java.awt.ScrollPane;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+import java.awt.Font;
 
 public class Visualizer {
 
@@ -42,6 +47,9 @@ public class Visualizer {
 	private JPanel configBorder;
 	private JPanel mainBorder;
 	private JPanel numOfOpsBorder;
+	private JTable table = new JTable();;
+	private Algos algos = null;
+	private JLabel lblAlgName = new JLabel("Bubble Sort");
 
 	public JCheckBox getChckbxRandomData() {
 		return chckbxRandomData;
@@ -83,10 +91,10 @@ public class Visualizer {
 				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		configBorder.setLayout(null);
 
-		configBorder.setBounds(12, 13, 1550, 232);
+		configBorder.setBounds(12, 13, 1550, 223);
 
 		mainBorder.setBounds(12, 255, getFrmAlgo().getWidth() - 50, (int) (getFrmAlgo().getHeight() - 300));
-		mainPannel.setBounds(12, 25, getFrmAlgo().getWidth() - 75, (int) (getFrmAlgo().getHeight() - 340));
+		mainPannel.setBounds(105, 27, getFrmAlgo().getWidth() - 75, (int) (getFrmAlgo().getHeight() - 340));
 
 		chckbxRandomData.setBounds(6, 121, 112, 35);
 
@@ -220,6 +228,43 @@ public class Visualizer {
 		numOfIfsArea.setEditable(false);
 		numOfIfsArea.setBounds(12, 13, 48, 18);
 		numOfIfsBorder.add(numOfIfsArea);
+		setUpTable();
+	}
+
+	public void setUpTable() {
+
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Algorithm Complexity",
+				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panel.setBounds(831, 13, 584, 153);
+		configPanel.add(panel);
+		panel.setLayout(null);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(6, 77, 569, 63);
+		panel.add(scrollPane);
+		table.setFont(new Font("Tahoma", Font.PLAIN, 28));
+		table.setRowHeight(table.getRowHeight() + 24);
+		scrollPane.setViewportView(table);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setFillsViewportHeight(true);
+		table.setCellSelectionEnabled(true);
+		table.setColumnSelectionAllowed(true);
+		table.setModel(
+				new DefaultTableModel(new Object[][] {}, new String[] { "Best Case", "Average Case", "Worst Case" }));
+		lblAlgName.setBounds(182, 18, 222, 36);
+		panel.add(lblAlgName);
+		lblAlgName.setFont(new Font("Tahoma", Font.PLAIN, 32));
+		table.getColumnModel().getColumn(0).setResizable(false);
+		table.getColumnModel().getColumn(0).setPreferredWidth(104);
+		table.getColumnModel().getColumn(0).setMinWidth(40);
+		table.getColumnModel().getColumn(1).setResizable(false);
+		table.getColumnModel().getColumn(1).setPreferredWidth(172);
+		table.getColumnModel().getColumn(1).setMinWidth(40);
+		table.getColumnModel().getColumn(2).setResizable(false);
+		table.getColumnModel().getColumn(2).setPreferredWidth(146);
+		table.getColumnModel().getColumn(2).setMinWidth(40);
+
+		insertRow(new Object[] { "Ω(n)", "Θ(n^2)", "O(n^2)" });
 	}
 
 	private void setUpJframe() {
@@ -284,6 +329,28 @@ public class Visualizer {
 		algoTypeBorder.setBounds(557, 13, 112, 96);
 		configPanel.add(algoTypeBorder);
 		algoTypeBorder.setLayout(null);
+		algosAvailable.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				if (algosAvailable.getSelectedValue().equals("Bubble Sort")) {
+					algos = Algos.BUBBLE;
+					lblAlgName.setText("Bubble Sort");
+					insertRow(new Object[] { "Ω(n)", "Θ(n^2)", "O(n^2)" });
+				} else if (algosAvailable.getSelectedValue().equals("Merge Sort")) {
+					algos = Algos.MERGE;
+					lblAlgName.setText("Merge Sort");
+					insertRow(new Object[] { "Ω(n log(n))", "Θ(n log(n))", "O(n log(n))" });
+				} else if (algosAvailable.getSelectedValue().equals("Insertion Sort")) {
+					algos = Algos.INSERTION;
+					lblAlgName.setText("Insertion Sort");
+					insertRow(new Object[] { "Ω(n)", "Θ(n^2)", "O(n^2)" });
+				} else if (algosAvailable.getSelectedValue().equals("Shell Sort")) {
+					algos = Algos.SHELL;
+					lblAlgName.setText("Shell Sort");
+					insertRow(new Object[] { "Ω(n log(n))", "Θ(n(log(n))^2)", "O(n(log(n))^2)" });
+				}
+			}
+
+		});
 		algosAvailable.setBounds(12, 13, 90, 70);
 		algoTypeBorder.add(algosAvailable);
 
@@ -304,6 +371,14 @@ public class Visualizer {
 			}
 		});
 		algosAvailable.setSelectedIndex(0);
+	}
+
+	public void insertRow(Object[] row) {
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		if (model.getRowCount() > 0) {
+			model.removeRow(0);
+		}
+		model.insertRow(0, row);
 	}
 
 	public JSpinner getSpeedDelay() {
@@ -339,16 +414,6 @@ public class Visualizer {
 	public final class AlgoRun implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			chckbxRandomData.setEnabled(false);
-			Algos algos = null;
-			if (algosAvailable.getSelectedValue().equals("Bubble Sort")) {
-				algos = Algos.BUBBLE;
-			} else if (algosAvailable.getSelectedValue().equals("Merge Sort")) {
-				algos = Algos.MERGE;
-			} else if (algosAvailable.getSelectedValue().equals("Insertion Sort")) {
-				algos = Algos.INSERTION;
-			} else if (algosAvailable.getSelectedValue().equals("Shell Sort")) {
-				algos = Algos.SHELL;
-			}
 			if (algos != null) {
 				DrawPanel[] _lines = getLines().toArray(new DrawPanel[getLines().size()]);
 				doWork(_lines, algos);
@@ -369,16 +434,20 @@ public class Visualizer {
 						algoHelper.shell(_lines);
 						followUp(_lines);
 					} else if (algo == Algos.MERGE) {
-						List<AtomicInteger> sortable = getLines().parallelStream().map(DrawPanel::getAtomicYReference)
-								.collect(Collectors.toList());
-						AtomicInteger[] _sortable = sortable.toArray(new AtomicInteger[sortable.size()]);
+						AtomicInteger[] _sortable = linesToYaxisData();
 						algoHelper.mergeSort(_sortable);
 						followUp(_lines);
 					}
 					getFrmAlgo().setResizable(true);
 					chckbxRandomData.setSelected(false);
 					run.setEnabled(false);
+				}
 
+				public AtomicInteger[] linesToYaxisData() {
+					List<AtomicInteger> sortable = getLines().parallelStream().map(DrawPanel::getAtomicYReference)
+							.collect(Collectors.toList());
+					AtomicInteger[] _sortable = sortable.toArray(new AtomicInteger[sortable.size()]);
+					return _sortable;
 				}
 
 				private void followUp(final DrawPanel[] _lines) {
