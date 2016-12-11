@@ -232,7 +232,6 @@ public class Visualizer {
 	}
 
 	public void setUpTable() {
-
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Algorithm Complexity",
 				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
