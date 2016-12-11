@@ -18,7 +18,6 @@ import java.awt.Toolkit;
 import com.algo.visual.algos.AlgoHelper;
 import com.algo.visual.algos.Algos;
 import com.algo.visual.drawing.DrawPanel;
-
 import java.awt.SystemColor;
 import java.awt.BorderLayout;
 import java.awt.Label;
@@ -30,7 +29,7 @@ public class Visualizer {
 
 	private JFrame frmAlgo;
 	private JTextField inputData;
-	private JTextArea numOfIfs;
+	private JTextArea numOfIfsArea;
 	private final List<DrawPanel> lines = new ArrayList<>();
 	private final JCheckBox chckbxRandomData = new JCheckBox("Random/Clear");
 	private final JButton run = new JButton("Run");
@@ -42,6 +41,7 @@ public class Visualizer {
 	private JPanel configPanel;
 	private JPanel configBorder;
 	private JPanel mainBorder;
+	private JPanel numOfOpsBorder;
 
 	public JCheckBox getChckbxRandomData() {
 		return chckbxRandomData;
@@ -82,6 +82,12 @@ public class Visualizer {
 		configBorder.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Sort Config",
 				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		configBorder.setLayout(null);
+
+		configBorder.setBounds(12, 13, 1550, 232);
+
+		mainBorder.setBounds(12, 255, getFrmAlgo().getWidth() - 50, (int) (getFrmAlgo().getHeight() - 300));
+		mainPannel.setBounds(12, 25, getFrmAlgo().getWidth() - 75, (int) (getFrmAlgo().getHeight() - 340));
+
 		chckbxRandomData.setBounds(6, 121, 112, 35);
 
 		chckbxRandomData.addActionListener(e -> {
@@ -111,10 +117,11 @@ public class Visualizer {
 		run.addActionListener(new AlgoRun());
 		configPanel = new JPanel();
 		configBorder.add(configPanel);
+		configPanel.setBounds(12, 16, 1525, 190);
 		setUpUi(configPanel);
 
 		inputData = new JTextField();
-		inputData.setBounds(126, 65, 419, 44);
+		inputData.setBounds(126, 76, 419, 33);
 		inputData.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				getFrmAlgo().setResizable(false);
@@ -170,36 +177,49 @@ public class Visualizer {
 		configPanel.add(chckbxRandomData);
 
 		JLabel lblNumOfSwaps = new JLabel("Num Of Ifs");
-		lblNumOfSwaps.setBounds(6, 8, 71, 44);
+		lblNumOfSwaps.setBounds(14, 28, 71, 24);
 		configPanel.add(lblNumOfSwaps);
 		lblNumOfSwaps.setBackground(new Color(51, 153, 255));
 
 		JLabel lblAlgoType = new JLabel("Algorythm Type");
-		lblAlgoType.setBounds(442, 8, 99, 44);
+		lblAlgoType.setBounds(446, 23, 99, 34);
 		lblAlgoType.setBackground(SystemColor.textHighlight);
 		configPanel.add(lblAlgoType);
 
 		JLabel lblInData = new JLabel("Input Array");
-		lblInData.setBounds(6, 65, 90, 44);
+		lblInData.setBounds(12, 80, 79, 24);
 		configPanel.add(lblInData);
 
+		numOfOpsBorder = new JPanel();
+		numOfOpsBorder.setBorder(UIManager.getBorder("TextArea.border"));
+		numOfOpsBorder.setBounds(294, 19, 71, 44);
+		configPanel.add(numOfOpsBorder);
+		numOfOpsBorder.setLayout(null);
+
 		setNumOfOperations(new JTextArea());
-		configPanel.add(getNumOfOperations());
 		getNumOfOperations().setEditable(false);
 		getNumOfOperations().setRows(1);
 
 		Label lblDelay = new Label("Speed Delay");
-		lblDelay.setBounds(651, 16, 88, 24);
+		lblDelay.setBounds(673, 16, 88, 24);
 		configPanel.add(lblDelay);
 
 		JLabel lblNumOfOpps = new JLabel("Num Of Operations");
-		lblNumOfOpps.setBounds(220, 8, 118, 44);
+		lblNumOfOpps.setBounds(176, 29, 118, 34);
 		lblNumOfOpps.setBackground(SystemColor.textHighlight);
 		configPanel.add(lblNumOfOpps);
 
-		setNumOfIfs(new JTextArea());
-		getNumOfIfs().setEditable(false);
-		getNumOfIfs().setRows(1);
+		JPanel numOfIfsBorder = new JPanel();
+		numOfIfsBorder.setLayout(null);
+		numOfIfsBorder.setBorder(UIManager.getBorder("TextArea.border"));
+		numOfIfsBorder.setBounds(93, 19, 71, 44);
+		configPanel.add(numOfIfsBorder);
+
+		numOfIfsArea = new JTextArea();
+		numOfIfsArea.setRows(1);
+		numOfIfsArea.setEditable(false);
+		numOfIfsArea.setBounds(12, 13, 48, 18);
+		numOfIfsBorder.add(numOfIfsArea);
 	}
 
 	private void setUpJframe() {
@@ -239,7 +259,7 @@ public class Visualizer {
 		panel.setBackground(Color.WHITE);
 		configPanel.setLayout(null);
 		panel.add(run);
-		speedDelay.setBounds(743, 19, 44, 33);
+		speedDelay.setBounds(765, 19, 44, 33);
 		getSpeedDelay().setModel(new SpinnerNumberModel(0, 0, 5000, 1));
 		panel.add(getSpeedDelay());
 		listOfAlgos(panel);
@@ -258,7 +278,14 @@ public class Visualizer {
 	}
 
 	private void listOfAlgos(JPanel panel) {
-		algosAvailable.setBounds(553, 21, 92, 88);
+
+		JPanel algoTypeBorder = new JPanel();
+		algoTypeBorder.setBorder(UIManager.getBorder("List.focusCellHighlightBorder"));
+		algoTypeBorder.setBounds(557, 13, 112, 96);
+		configPanel.add(algoTypeBorder);
+		algoTypeBorder.setLayout(null);
+		algosAvailable.setBounds(12, 13, 90, 70);
+		algoTypeBorder.add(algosAvailable);
 
 		algosAvailable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		algosAvailable.setModel(new AbstractListModel<String>() {
@@ -277,7 +304,6 @@ public class Visualizer {
 			}
 		});
 		algosAvailable.setSelectedIndex(0);
-		panel.add(algosAvailable);
 	}
 
 	public JSpinner getSpeedDelay() {
@@ -290,17 +316,12 @@ public class Visualizer {
 
 	private void setNumOfOperations(JTextArea numOfOperations) {
 		this.numOfOperations = numOfOperations;
-		numOfOperations.setBounds(338, 8, 92, 44);
+		numOfOperations.setBounds(12, 13, 48, 18);
+		numOfOpsBorder.add(numOfOperations);
 	}
 
 	public JTextArea getNumOfIfs() {
-		return numOfIfs;
-	}
-
-	private void setNumOfIfs(JTextArea numOfIfs) {
-		this.numOfIfs = numOfIfs;
-		numOfIfs.setBounds(93, 8, 82, 44);
-		configPanel.add(numOfIfs);
+		return numOfIfsArea;
 	}
 
 	public JFrame getFrmAlgo() {
