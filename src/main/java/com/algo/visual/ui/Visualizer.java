@@ -376,6 +376,9 @@ public class Visualizer {
 						followUp(_lines);
 					}
 					getFrmAlgo().setResizable(true);
+					chckbxRandomData.setSelected(false);
+					run.setEnabled(false);
+
 				}
 
 				private void followUp(final DrawPanel[] _lines) {
