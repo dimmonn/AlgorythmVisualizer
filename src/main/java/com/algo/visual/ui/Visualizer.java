@@ -26,6 +26,9 @@ import java.awt.Label;
 import javax.swing.border.TitledBorder;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.table.DefaultTableModel;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
@@ -88,8 +91,7 @@ public class Visualizer {
 				Visualizer window = new Visualizer();
 				window.getFrmAlgo().setVisible(true);
 			} catch (Exception e) {
-				// LOGGER.log(Level.SEVERE, e.getMessage());
-				e.printStackTrace();
+				LOGGER.log(Level.SEVERE, e.getMessage());
 			}
 		});
 	}
@@ -152,7 +154,8 @@ public class Visualizer {
 		configPanel.setBounds(12, 16, 1525, 190);
 		setUpUi(configPanel);
 
-		inputData = new JTextField();
+		inputData = new JTextField("input comma separated values: ex. 9,8,7,6,5,4,3,2,1");
+		hintToInputData();
 		inputData.setBounds(126, 76, 419, 33);
 		inputData.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -253,6 +256,16 @@ public class Visualizer {
 		numOfIfsArea.setBounds(12, 13, 48, 18);
 		numOfIfsBorder.add(numOfIfsArea);
 		setUpTable();
+	}
+
+	public void hintToInputData() {
+		inputData.setToolTipText("");
+		inputData.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				inputData.setText("");
+			}
+		});
 	}
 
 	public void setUpTable() {
@@ -478,7 +491,6 @@ public class Visualizer {
 						}
 						algosAvailable.setEnabled(true);
 						getFrmAlgo().setResizable(true);
-						chckbxRandomData.setSelected(false);
 						run.setText("Run");
 						run.setEnabled(false);
 						setRunning(false);
