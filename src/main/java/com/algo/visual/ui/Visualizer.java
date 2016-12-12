@@ -469,11 +469,12 @@ public class Visualizer {
 		public void doWork(final DrawPanel[] _lines, Algos algo) {
 			new Thread(new Runnable() {
 				public void run() {
+					inputData.setEditable(false);
 					algosAvailable.setEnabled(false);
 					if (!isRunning()) {
 						run.setText("Pause");
 						setToBePaused(false);
-						LOGGER.log(Level.INFO, Thread.currentThread().getName() + " is started");
+						LOGGER.log(Level.INFO, Thread.currentThread().getName() + " started an slgorithm");
 						setRunning(true);
 						if (algo == Algos.BUBBLE) {
 							algoHelper.bubbleSort(getNumOfOperations(), _lines);
@@ -489,6 +490,8 @@ public class Visualizer {
 							algoHelper.mergeSort(_sortable);
 							followUp(_lines);
 						}
+						LOGGER.log(Level.INFO, Thread.currentThread().getName() + " stopped an algorithm");
+						inputData.setEditable(true);
 						algosAvailable.setEnabled(true);
 						getFrmAlgo().setResizable(true);
 						run.setText("Run");
