@@ -456,6 +456,7 @@ public class Visualizer {
 		public void doWork(final DrawPanel[] _lines, Algos algo) {
 			new Thread(new Runnable() {
 				public void run() {
+					algosAvailable.setEnabled(false);
 					if (!isRunning()) {
 						run.setText("Pause");
 						setToBePaused(false);
@@ -475,6 +476,7 @@ public class Visualizer {
 							algoHelper.mergeSort(_sortable);
 							followUp(_lines);
 						}
+						algosAvailable.setEnabled(true);
 						getFrmAlgo().setResizable(true);
 						chckbxRandomData.setSelected(false);
 						run.setText("Run");
