@@ -236,7 +236,8 @@ public class Visualizer {
 		getNumOfOperations().setRows(1);
 
 		Label lblDelay = new Label("Speed Delay");
-		lblDelay.setBounds(673, 16, 88, 24);
+		lblDelay.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblDelay.setBounds(557, 28, 79, 24);
 		configPanel.add(lblDelay);
 
 		JLabel lblNumOfOpps = new JLabel("Num Of Operations");
@@ -272,7 +273,7 @@ public class Visualizer {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Algorithm Complexity",
 				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(831, 13, 584, 143);
+		panel.setBounds(831, 13, 592, 143);
 		configPanel.add(panel);
 		panel.setLayout(null);
 		JScrollPane scrollPane = new JScrollPane();
@@ -340,7 +341,7 @@ public class Visualizer {
 		panel.setBackground(Color.WHITE);
 		configPanel.setLayout(null);
 		panel.add(run);
-		speedDelay.setBounds(765, 19, 44, 33);
+		speedDelay.setBounds(651, 28, 33, 24);
 		getSpeedDelay().setModel(new SpinnerNumberModel(0, 0, 5000, 1));
 		panel.add(getSpeedDelay());
 		listOfAlgos(panel);
@@ -362,7 +363,7 @@ public class Visualizer {
 
 		JPanel algoTypeBorder = new JPanel();
 		algoTypeBorder.setBorder(UIManager.getBorder("List.focusCellHighlightBorder"));
-		algoTypeBorder.setBounds(557, 13, 112, 96);
+		algoTypeBorder.setBounds(696, 28, 112, 96);
 		configPanel.add(algoTypeBorder);
 		algoTypeBorder.setLayout(null);
 		algosAvailable.addListSelectionListener(new ListSelectionListener() {
