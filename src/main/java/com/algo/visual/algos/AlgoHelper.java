@@ -105,7 +105,7 @@ public class AlgoHelper {
 		int j = middle + 1;
 		int k = low;
 		while (i <= middle && j <= high) {
-			pauseThreadIfNeeded();
+			slowDownAndPauseIfNeeded();
 			visualizer.getNumOfOperations().setText(String.valueOf(++ops));
 			if (helper[i].get() >= helper[j].get()) {
 				i = injectValue(i, k);
@@ -115,15 +115,19 @@ public class AlgoHelper {
 			k++;
 		}
 		while (i <= middle) {
-			pauseThreadIfNeeded();
+			slowDownAndPauseIfNeeded();
 			visualizer.getNumOfOperations().setText(String.valueOf(++ops));
-			slowDown();
 			_sortable[k].set(helper[i].get());
 			getKline(k).setColor(new Color(0, 102, 153));
 			k++;
 			i++;
 			visualizer.getFrmAlgo().repaint();
 		}
+	}
+
+	public void slowDownAndPauseIfNeeded() {
+		slowDown();
+		pauseThreadIfNeeded();
 	}
 
 	private void prepareHelper(int low, int high) {
@@ -134,7 +138,6 @@ public class AlgoHelper {
 	}
 
 	private int injectValue(int j, int k) {
-		slowDown();
 		_sortable[k].set(helper[j].get());
 		visualizer.getNumOfIfs().setText(String.valueOf(++swaps));
 		j++;
@@ -159,8 +162,7 @@ public class AlgoHelper {
 
 	private void moveSwap(AtomicInteger atomicInteger1, AtomicInteger atomicInteger2, int deltaJ, int deltaI) {
 		for (int k = deltaJ; k <= deltaI; k++) {
-			pauseThreadIfNeeded();
-			slowDown();
+			slowDownAndPauseIfNeeded();
 			atomicInteger1.set(k);
 			atomicInteger2.set(deltaI - (k - deltaJ));
 			visualizer.getFrmAlgo().repaint();
@@ -202,7 +204,6 @@ public class AlgoHelper {
 
 	public int incCompareAndChange(final DrawPanel[] input, int increment, int j) {
 		visualizer.getNumOfOperations().setText(String.valueOf(++ops));
-		slowDown();
 		input[j].setColor(Color.BLACK);
 		int tmpFrom = input[j - increment].getXX();
 		int tmpTo = input[j].getXX();
@@ -218,8 +219,7 @@ public class AlgoHelper {
 
 	public void moveLineShell(final DrawPanel[] input, int increment, int j, int tmpFrom, int tmpTo) {
 		for (int k = tmpFrom; k <= tmpTo; k = (!visualizer.getChckbxRandomData().isSelected()) ? k + 1 : k + 40) {
-			slowDown();
-			pauseThreadIfNeeded();
+			slowDownAndPauseIfNeeded();
 			input[j - increment].setXX(k);
 			visualizer.getFrmAlgo().repaint();
 		}
