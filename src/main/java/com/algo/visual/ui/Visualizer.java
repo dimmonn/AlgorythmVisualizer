@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.awt.Toolkit;
 import com.algo.visual.algos.AlgoHelper;
@@ -49,6 +51,29 @@ public class Visualizer {
 	private JTable table = new JTable();;
 	private Algos algos = null;
 	private JLabel lblAlgName = new JLabel("Bubble Sort");
+	private AtomicBoolean toBePaused = new AtomicBoolean(false);
+	private boolean isRunning = false;
+	private static final Logger LOGGER = Logger.getLogger(Visualizer.class.getName());
+
+	public boolean isToBePaused() {
+		return toBePaused.get();
+	}
+
+	public void setToBePaused(boolean toBePaused) {
+		this.toBePaused.set(toBePaused);
+	}
+
+	public boolean isRunning() {
+		return isRunning;
+	}
+
+	public void setRunning(boolean isRunning) {
+		this.isRunning = isRunning;
+	}
+
+	public JButton getRun() {
+		return run;
+	}
 
 	public JCheckBox getChckbxRandomData() {
 		return chckbxRandomData;
@@ -102,6 +127,7 @@ public class Visualizer {
 			getLines().clear();
 			getFrmAlgo().repaint();
 			if (chckbxRandomData.isSelected()) {
+				run.setEnabled(true);
 				inputData.setEditable(false);
 				getFrmAlgo().setResizable(false);
 				for (int i = 0; i < getFrmAlgo().getWidth() - 130; i++) {
@@ -111,17 +137,16 @@ public class Visualizer {
 					mainPannel.validate();
 				}
 				fillInRandomData();
-				run.setEnabled(true);
 			} else if (!chckbxRandomData.isSelected()) {
+				run.setEnabled(false);
 				getLines().clear();
 				mainPannel.removeAll();
-				run.setEnabled(false);
 				inputData.setEditable(true);
 			}
 		});
 		run.setBounds(126, 122, 519, 34);
-		run.setEnabled(false);
 		run.addActionListener(new AlgoRun());
+		run.setEnabled(false);
 		configPanel = new JPanel();
 		configBorder.add(configPanel);
 		configPanel.setBounds(12, 16, 1525, 190);
@@ -140,12 +165,12 @@ public class Visualizer {
 				isAllowed.set(true);
 				validateDataInput(data, isAllowed);
 				if (isAllowed.get()) {
+					run.setEnabled(true);
 					chckbxRandomData.setEnabled(false);
 					List<Integer> _data = data.stream().map(Integer::valueOf).collect(Collectors.toList());
 					int max = Collections.max(_data);
 					fillInData(_data, max);
 					inputData.setText("");
-					run.setEnabled(true);
 				}
 			}
 
@@ -157,7 +182,7 @@ public class Visualizer {
 					mainPannel.add(getLines().get(i));
 					mainPannel.validate();
 					mainPannel.repaint();
-					int x = i * (getFrmAlgo().getWidth() - 50) / _data.size() + 20;
+					int x = i * (getFrmAlgo().getWidth() - 50) / _data.size() + 40;
 					int _y = getFrmAlgo().getHeight() - 360 - ((getFrmAlgo().getHeight() - 360) * _data.get(i)) / max
 							+ 20;
 					getLines().get(i).setXX(x);
@@ -411,6 +436,16 @@ public class Visualizer {
 
 	public final class AlgoRun implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			if (isRunning() && !isToBePaused()) {
+				setToBePaused(true);
+				run.setText("Resume");
+				setRunning(false);
+				LOGGER.log(Level.INFO, Thread.currentThread().getName() + " is paused");
+				return;
+			} else if (!isRunning() && isToBePaused()) {
+				LOGGER.log(Level.INFO, Thread.currentThread().getName() + " is resumed");
+				setToBePaused(false);
+			}
 			chckbxRandomData.setEnabled(false);
 			if (algos != null) {
 				DrawPanel[] _lines = getLines().toArray(new DrawPanel[getLines().size()]);
@@ -421,24 +456,33 @@ public class Visualizer {
 		public void doWork(final DrawPanel[] _lines, Algos algo) {
 			new Thread(new Runnable() {
 				public void run() {
-					run.setEnabled(false);
-					if (algo == Algos.BUBBLE) {
-						algoHelper.bubbleSort(getNumOfOperations(), _lines);
-						followUp(_lines);
-					} else if (algo == Algos.INSERTION) {
-						algoHelper.innsertionSort(numOfOperations, _lines);
-						followUp(_lines);
-					} else if (algo == Algos.SHELL) {
-						algoHelper.shell(_lines);
-						followUp(_lines);
-					} else if (algo == Algos.MERGE) {
-						AtomicInteger[] _sortable = linesToYaxisData();
-						algoHelper.mergeSort(_sortable);
-						followUp(_lines);
+					if (!isRunning()) {
+						run.setText("Pause");
+						setToBePaused(false);
+						LOGGER.log(Level.INFO, Thread.currentThread().getName() + " is started");
+						setRunning(true);
+						if (algo == Algos.BUBBLE) {
+							algoHelper.bubbleSort(getNumOfOperations(), _lines);
+							followUp(_lines);
+						} else if (algo == Algos.INSERTION) {
+							algoHelper.innsertionSort(numOfOperations, _lines);
+							followUp(_lines);
+						} else if (algo == Algos.SHELL) {
+							algoHelper.shell(_lines);
+							followUp(_lines);
+						} else if (algo == Algos.MERGE) {
+							AtomicInteger[] _sortable = linesToYaxisData();
+							algoHelper.mergeSort(_sortable);
+							followUp(_lines);
+						}
+						getFrmAlgo().setResizable(true);
+						chckbxRandomData.setSelected(false);
+						run.setText("Run");
+						run.setEnabled(false);
+						setRunning(false);
+
 					}
-					getFrmAlgo().setResizable(true);
-					chckbxRandomData.setSelected(false);
-					run.setEnabled(false);
+
 				}
 
 				public AtomicInteger[] linesToYaxisData() {
@@ -450,7 +494,6 @@ public class Visualizer {
 
 				private void followUp(final DrawPanel[] _lines) {
 					getFrmAlgo().repaint();
-					run.setEnabled(true);
 					chckbxRandomData.setEnabled(true);
 				}
 

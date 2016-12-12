@@ -28,6 +28,46 @@ public class AlgoHelper {
 		helper = null;
 	}
 
+	public void innsertionSort(JTextArea numOfOperations, final DrawPanel[] input) {
+		for (int i = 1; i < input.length; i++) {
+			input[i].setColor(new Color(0, 102, 153));
+			for (int j = i; j > 0; j--) {
+				numOfOperations.setText(String.valueOf(++ops));
+				if (input[j].getYY() > input[j - 1].getYY()) {
+					swap(input, j - 1, j, swaps++);
+				}
+				input[j].setColor(new Color(0, 102, 153));
+			}
+		}
+	}
+
+	public void bubbleSort(JTextArea numOfOperations, final DrawPanel[] _lines) {
+		startCounter();
+		for (int i = 0; i < _lines.length - 1; i++) {
+			for (int j = 0; j < _lines.length - 1; j++) {
+				numOfOperations.setText(String.valueOf(++ops));
+				if (_lines[j].getYY() < _lines[j + 1].getYY()) {
+					swap(_lines, j, j + 1, swaps++);
+				}
+			}
+			_lines[_lines.length - 1 - i].setColor(new Color(0, 102, 153));
+		}
+		_lines[0].setColor(new Color(0, 102, 153));
+	}
+
+	public void pauseThreadIfNeeded() {
+		while (visualizer.isToBePaused()) {
+		}
+		visualizer.setRunning(true);
+		visualizer.getRun().setText("Pause");
+	}
+
+	public void shell(final DrawPanel[] input) {
+		startCounter();
+		int increment = input.length / 2;
+		increment = shellTillIncPositive(input, increment);
+	}
+
 	private void lazyLoadWhatToSort(AtomicInteger[] _sortable) {
 		if (helper == null) {
 			this._sortable = _sortable;
@@ -65,6 +105,7 @@ public class AlgoHelper {
 		int j = middle + 1;
 		int k = low;
 		while (i <= middle && j <= high) {
+			pauseThreadIfNeeded();
 			visualizer.getNumOfOperations().setText(String.valueOf(++ops));
 			if (helper[i].get() >= helper[j].get()) {
 				i = injectValue(i, k);
@@ -74,6 +115,7 @@ public class AlgoHelper {
 			k++;
 		}
 		while (i <= middle) {
+			pauseThreadIfNeeded();
 			visualizer.getNumOfOperations().setText(String.valueOf(++ops));
 			slowDown();
 			_sortable[k].set(helper[i].get());
@@ -91,19 +133,6 @@ public class AlgoHelper {
 		}
 	}
 
-	public void innsertionSort(JTextArea numOfOperations, final DrawPanel[] input) {
-		for (int i = 1; i < input.length; i++) {
-			input[i].setColor(new Color(0, 102, 153));
-			for (int j = i; j > 0; j--) {
-				numOfOperations.setText(String.valueOf(++ops));
-				if (input[j].getYY() > input[j - 1].getYY()) {
-					swap(input, j - 1, j, swaps++);
-				}
-				input[j].setColor(new Color(0, 102, 153));
-			}
-		}
-	}
-
 	private int injectValue(int j, int k) {
 		slowDown();
 		_sortable[k].set(helper[j].get());
@@ -118,20 +147,6 @@ public class AlgoHelper {
 		return visualizer.getLines().toArray(new DrawPanel[visualizer.getLines().size()])[k];
 	}
 
-	public void bubbleSort(JTextArea numOfOperations, final DrawPanel[] _lines) {
-		startCounter();
-		for (int i = 0; i < _lines.length - 1; i++) {
-			for (int j = 0; j < _lines.length - 1; j++) {
-				numOfOperations.setText(String.valueOf(++ops));
-				if (_lines[j].getYY() < _lines[j + 1].getYY()) {
-					swap(_lines, j, j + 1, swaps++);
-				}
-			}
-			_lines[_lines.length - 1 - i].setColor(new Color(0, 102, 153));
-		}
-		_lines[0].setColor(new Color(0, 102, 153));
-	}
-
 	private void swap(final DrawPanel[] _lines, int i, int j, int swaps) {
 		DrawPanel tmp = _lines[j];
 		_lines[j] = _lines[i];
@@ -144,17 +159,12 @@ public class AlgoHelper {
 
 	private void moveSwap(AtomicInteger atomicInteger1, AtomicInteger atomicInteger2, int deltaJ, int deltaI) {
 		for (int k = deltaJ; k <= deltaI; k++) {
+			pauseThreadIfNeeded();
 			slowDown();
 			atomicInteger1.set(k);
 			atomicInteger2.set(deltaI - (k - deltaJ));
 			visualizer.getFrmAlgo().repaint();
 		}
-	}
-
-	public void shell(final DrawPanel[] input) {
-		startCounter();
-		int increment = input.length / 2;
-		increment = shellTillIncPositive(input, increment);
 	}
 
 	public int shellTillIncPositive(final DrawPanel[] input, int increment) {
@@ -182,9 +192,9 @@ public class AlgoHelper {
 		int j = i;
 		DrawPanel temp = new DrawPanel(input[i]);
 		while (j >= increment && input[j - increment].getYY() < temp.getYY()) {
+			pauseThreadIfNeeded();
 			j = incCompareAndChange(input, increment, j);
 		}
-		slowDown();
 		input[j].setYY(temp.getYY());
 		input[j].setColor(new Color(0, 102, 153));
 		visualizer.getFrmAlgo().repaint();
@@ -209,6 +219,7 @@ public class AlgoHelper {
 	public void moveLineShell(final DrawPanel[] input, int increment, int j, int tmpFrom, int tmpTo) {
 		for (int k = tmpFrom; k <= tmpTo; k = (!visualizer.getChckbxRandomData().isSelected()) ? k + 1 : k + 40) {
 			slowDown();
+			pauseThreadIfNeeded();
 			input[j - increment].setXX(k);
 			visualizer.getFrmAlgo().repaint();
 		}
