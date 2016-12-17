@@ -288,7 +288,7 @@ public class Visualizer {
 		table.setCellSelectionEnabled(true);
 		table.setColumnSelectionAllowed(true);
 		table.setModel(
-				new DefaultTableModel(new Object[][] {}, new String[] { "Best Case", "Average Case", "Worst Case" }));
+				new DefaultTableModel(new String[][] {}, new String[] { "Best Case", "Average Case", "Worst Case" }));
 		lblAlgName.setBounds(182, 18, 222, 36);
 		panel.add(lblAlgName);
 		lblAlgName.setFont(new Font("Tahoma", Font.PLAIN, 32));
@@ -302,7 +302,7 @@ public class Visualizer {
 		table.getColumnModel().getColumn(2).setPreferredWidth(146);
 		table.getColumnModel().getColumn(2).setMinWidth(40);
 
-		insertRow(new Object[] { "Ω(n)", "Θ(n^2)", "O(n^2)" });
+		insertRow(new String[] { "Ω(n)", "Θ(n^2)", "O(n^2)" });
 	}
 
 	private void setUpJframe() {
@@ -372,19 +372,19 @@ public class Visualizer {
 				if (algosAvailable.getSelectedValue().equals("Bubble Sort")) {
 					algos = Algos.BUBBLE;
 					lblAlgName.setText("Bubble Sort");
-					insertRow(new Object[] { "Ω(n)", "Θ(n^2)", "O(n^2)" });
+					insertRow(new String[] { "Ω(n)", "Θ(n^2)", "O(n^2)" });
 				} else if (algosAvailable.getSelectedValue().equals("Merge Sort")) {
 					algos = Algos.MERGE;
 					lblAlgName.setText("Merge Sort");
-					insertRow(new Object[] { "Ω(n log(n))", "Θ(n log(n))", "O(n log(n))" });
+					insertRow(new String[] { "Ω(n log(n))", "Θ(n log(n))", "O(n log(n))" });
 				} else if (algosAvailable.getSelectedValue().equals("Insertion Sort")) {
 					algos = Algos.INSERTION;
 					lblAlgName.setText("Insertion Sort");
-					insertRow(new Object[] { "Ω(n)", "Θ(n^2)", "O(n^2)" });
+					insertRow(new String[] { "Ω(n)", "Θ(n^2)", "O(n^2)" });
 				} else if (algosAvailable.getSelectedValue().equals("Shell Sort")) {
 					algos = Algos.SHELL;
 					lblAlgName.setText("Shell Sort");
-					insertRow(new Object[] { "Ω(n log(n))", "Θ(n(log(n))^2)", "O(n(log(n))^2)" });
+					insertRow(new String[] { "Ω(n log(n))", "Θ(n(log(n))^2)", "O(n(log(n))^2)" });
 				}
 			}
 
