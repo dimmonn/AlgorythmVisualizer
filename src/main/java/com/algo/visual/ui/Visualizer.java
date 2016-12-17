@@ -154,9 +154,9 @@ public class Visualizer {
 		configPanel.setBounds(12, 16, 1525, 190);
 		setUpUi(configPanel);
 
-		inputData = new JTextField("input comma separated values: ex. 9,8,7,6,5,4,3,2,1");
+		inputData = new JTextField("input comma separated values: ex. 9,8,7,6,5,4,3,2,1 and hit enter");
 		hintToInputData();
-		inputData.setBounds(126, 76, 419, 33);
+		inputData.setBounds(126, 76, 519, 33);
 		inputData.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				getFrmAlgo().setResizable(false);
@@ -217,7 +217,7 @@ public class Visualizer {
 		lblNumOfSwaps.setBackground(new Color(51, 153, 255));
 
 		JLabel lblAlgoType = new JLabel("Algorythm Type");
-		lblAlgoType.setBounds(446, 23, 99, 34);
+		lblAlgoType.setBounds(577, 23, 99, 34);
 		lblAlgoType.setBackground(SystemColor.textHighlight);
 		configPanel.add(lblAlgoType);
 
@@ -236,12 +236,13 @@ public class Visualizer {
 		getNumOfOperations().setRows(1);
 
 		Label lblDelay = new Label("Speed Delay");
+		lblDelay.setForeground(Color.BLACK);
 		lblDelay.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblDelay.setBounds(557, 28, 79, 24);
+		lblDelay.setBounds(418, 28, 79, 24);
 		configPanel.add(lblDelay);
 
 		JLabel lblNumOfOpps = new JLabel("Num Of Operations");
-		lblNumOfOpps.setBounds(176, 29, 118, 34);
+		lblNumOfOpps.setBounds(176, 23, 112, 34);
 		lblNumOfOpps.setBackground(SystemColor.textHighlight);
 		configPanel.add(lblNumOfOpps);
 
@@ -341,7 +342,7 @@ public class Visualizer {
 		panel.setBackground(Color.WHITE);
 		configPanel.setLayout(null);
 		panel.add(run);
-		speedDelay.setBounds(651, 28, 33, 24);
+		speedDelay.setBounds(512, 28, 33, 24);
 		getSpeedDelay().setModel(new SpinnerNumberModel(0, 0, 5000, 1));
 		panel.add(getSpeedDelay());
 		listOfAlgos(panel);
@@ -363,7 +364,7 @@ public class Visualizer {
 
 		JPanel algoTypeBorder = new JPanel();
 		algoTypeBorder.setBorder(UIManager.getBorder("List.focusCellHighlightBorder"));
-		algoTypeBorder.setBounds(696, 28, 112, 96);
+		algoTypeBorder.setBounds(688, 28, 112, 96);
 		configPanel.add(algoTypeBorder);
 		algoTypeBorder.setLayout(null);
 		algosAvailable.addListSelectionListener(new ListSelectionListener() {
