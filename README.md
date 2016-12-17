@@ -1,2 +1,2 @@
 #Visualize the most famous algorithms 
-![img](https://media.giphy.com/media/LHZyixOnHwDDy/giphy.gif)
+![img](https://github.com/dimmonn/AlgorythmVisualizer/blob/master/src/main/resources/description.gif)
