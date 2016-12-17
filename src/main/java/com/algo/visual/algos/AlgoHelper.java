@@ -16,6 +16,7 @@ public class AlgoHelper {
 	private AtomicInteger[] helper;
 	private static final Logger LOGGER = Logger.getLogger(AlgoHelper.class.getName());
 	private int ops, swaps;
+	private DrawPanel[] qs;
 
 	public AlgoHelper(Visualizer visualizer) {
 		this.visualizer = visualizer;
@@ -230,5 +231,35 @@ public class AlgoHelper {
 		swaps = 0;
 		visualizer.getNumOfIfs().setText(String.valueOf(0));
 		visualizer.getNumOfOperations().setText(String.valueOf(0));
+	}
+
+	public void quickSort(DrawPanel[] _lines) {
+		this.qs = _lines;
+		int length = _lines.length;
+		_quickSort(0, length - 1, _lines);
+	}
+
+	private void _quickSort(int lowerIndex, int higherIndex, DrawPanel[] _lines) {
+		int i = lowerIndex;
+		int j = higherIndex;
+		int pivot = qs[lowerIndex + (higherIndex - lowerIndex) / 2].getYY();
+		qs[lowerIndex + (higherIndex - lowerIndex) / 2].setColor(Color.GREEN);
+		while (i <= j) {
+			while (qs[i].getYY() > pivot) {
+				i++;
+			}
+			while (qs[j].getYY() < pivot) {
+				j--;
+			}
+			if (i <= j) {
+				swap(_lines, i, j, swaps++);
+				i++;
+				j--;
+			}
+		}
+		if (lowerIndex < j)
+			_quickSort(lowerIndex, j, _lines);
+		if (i < higherIndex)
+			_quickSort(i, higherIndex, _lines);
 	}
 }

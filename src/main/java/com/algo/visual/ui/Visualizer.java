@@ -364,7 +364,7 @@ public class Visualizer {
 
 		JPanel algoTypeBorder = new JPanel();
 		algoTypeBorder.setBorder(UIManager.getBorder("List.focusCellHighlightBorder"));
-		algoTypeBorder.setBounds(688, 28, 112, 96);
+		algoTypeBorder.setBounds(688, 28, 112, 116);
 		configPanel.add(algoTypeBorder);
 		algoTypeBorder.setLayout(null);
 		algosAvailable.addListSelectionListener(new ListSelectionListener() {
@@ -385,8 +385,7 @@ public class Visualizer {
 					algos = Algos.SHELL;
 					lblAlgName.setText("Shell Sort");
 					insertRow(new String[] { "Ω(n log(n))", "Θ(n(log(n))^2)", "O(n(log(n))^2)" });
-				}
-				else if (algosAvailable.getSelectedValue().equals("Quick Sort")) {
+				} else if (algosAvailable.getSelectedValue().equals("Quick Sort")) {
 					algos = Algos.QUICK;
 					lblAlgName.setText("Quick Sort");
 					insertRow(new String[] { "Ω(n log(n))", "Θ(n(log(n))^2)", "O(n(log(n))^2)" });
@@ -394,7 +393,7 @@ public class Visualizer {
 			}
 
 		});
-		algosAvailable.setBounds(12, 13, 90, 70);
+		algosAvailable.setBounds(12, 13, 90, 90);
 		algoTypeBorder.add(algosAvailable);
 
 		algosAvailable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -403,7 +402,8 @@ public class Visualizer {
 			 * 
 			 */
 			private static final long serialVersionUID = 1L;
-			final String[] values = new String[] { "Bubble Sort", "Merge Sort", "Insertion Sort", "Shell Sort" };
+			final String[] values = new String[] { "Bubble Sort", "Merge Sort", "Insertion Sort", "Shell Sort",
+					"Quick Sort" };
 
 			public int getSize() {
 				return values.length;
@@ -495,6 +495,9 @@ public class Visualizer {
 						} else if (algo == Algos.MERGE) {
 							AtomicInteger[] _sortable = linesToYaxisData();
 							algoHelper.mergeSort(_sortable);
+							followUp(_lines);
+						} else if (algo == Algos.QUICK) {
+							algoHelper.quickSort(_lines);
 							followUp(_lines);
 						}
 						LOGGER.log(Level.INFO, Thread.currentThread().getName() + " stopped an algorithm");
