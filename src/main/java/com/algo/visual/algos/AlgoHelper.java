@@ -32,6 +32,7 @@ public class AlgoHelper {
 	public void innsertionSort(final DrawPanel[] input) {
 		startCounter();
 		for (int i = 1; i < input.length; i++) {
+			visualizer.getNumOfOperations().setText(String.valueOf(++ops));
 			input[i].setColor(new Color(0, 102, 153));
 			for (int j = i; j > 0; j--) {
 				visualizer.getNumOfOperations().setText(String.valueOf(++ops));
@@ -46,9 +47,11 @@ public class AlgoHelper {
 	public void bubbleSort(JTextArea numOfOperations, final DrawPanel[] _lines) {
 		startCounter();
 		for (int i = 0; i < _lines.length - 1; i++) {
+			numOfOperations.setText(String.valueOf(++ops));
 			for (int j = 0; j < _lines.length - 1; j++) {
 				numOfOperations.setText(String.valueOf(++ops));
 				if (_lines[j].getYY() < _lines[j + 1].getYY()) {
+					
 					swap(_lines, j, j + 1, ifs++);
 				}
 			}
@@ -94,6 +97,7 @@ public class AlgoHelper {
 	private void _mergesort(int low, int high) {
 
 		if (low < high) {
+			visualizer.getNumOfIfs().setText(String.valueOf(++ifs));
 			int middle = low + (high - low) / 2;
 			_mergesort(low, middle);
 			_mergesort(middle + 1, high);
@@ -182,6 +186,7 @@ public class AlgoHelper {
 
 	public int shellTillIncPositive(final DrawPanel[] input, int increment) {
 		while (increment > 0) {
+			visualizer.getNumOfOperations().setText(String.valueOf(++ops));
 			for (int i = increment; i < input.length; i++) {
 				loopAndIncChange(input, increment, i);
 			}
@@ -260,6 +265,7 @@ public class AlgoHelper {
 		int pivot = qs[lowerIndex + (higherIndex - lowerIndex) / 2].getYY();
 		qs[lowerIndex + (higherIndex - lowerIndex) / 2].setColor(Color.GREEN);
 		while (i <= j) {
+			visualizer.getNumOfOperations().setText(String.valueOf(++ops));
 			while (qs[i].getYY() > pivot) {
 				visualizer.getNumOfOperations().setText(String.valueOf(++ops));
 				i++;
@@ -269,7 +275,6 @@ public class AlgoHelper {
 				j--;
 			}
 			if (i <= j) {
-
 				swap(_lines, i, j, ifs++);
 				i++;
 				j--;
