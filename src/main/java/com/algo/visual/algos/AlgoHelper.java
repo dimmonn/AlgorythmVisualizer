@@ -51,7 +51,7 @@ public class AlgoHelper {
 			for (int j = 0; j < _lines.length - 1; j++) {
 				numOfOperations.setText(String.valueOf(++ops));
 				if (_lines[j].getYY() < _lines[j + 1].getYY()) {
-					
+
 					swap(_lines, j, j + 1, ifs++);
 				}
 			}
@@ -71,6 +71,7 @@ public class AlgoHelper {
 		startCounter();
 		int increment = input.length / 2;
 		increment = shellTillIncPositive(input, increment);
+		finallyColor(input);
 	}
 
 	private void lazyLoadWhatToSort(AtomicInteger[] _sortable) {
@@ -188,6 +189,11 @@ public class AlgoHelper {
 		while (increment > 0) {
 			visualizer.getNumOfOperations().setText(String.valueOf(++ops));
 			for (int i = increment; i < input.length; i++) {
+				System.out.println(increment);
+				if (increment == 2) {
+					input[i].setColor(new Color(0, 102, 153));
+				}
+				visualizer.getNumOfOperations().setText(String.valueOf(++ops));
 				loopAndIncChange(input, increment, i);
 			}
 			increment = maintainInc(increment);
@@ -211,23 +217,21 @@ public class AlgoHelper {
 		DrawPanel temp = new DrawPanel(input[i]);
 		while (j >= increment && input[j - increment].getYY() < temp.getYY()) {
 			pauseThreadIfNeeded();
+			visualizer.getNumOfOperations().setText(String.valueOf(++ops));
 			j = incCompareAndChange(input, increment, j);
 		}
 		input[j].setYY(temp.getYY());
-		input[j].setColor(new Color(0, 102, 153));
 		visualizer.getFrmAlgo().repaint();
 	}
 
 	public int incCompareAndChange(final DrawPanel[] input, int increment, int j) {
-		visualizer.getNumOfOperations().setText(String.valueOf(++ops));
-		input[j].setColor(Color.BLACK);
 		int tmpFrom = input[j - increment].getXX();
 		int tmpTo = input[j].getXX();
-		input[j - increment].setColor(Color.BLACK);
 		moveLineShell(input, increment, j, tmpFrom, tmpTo);
-		input[j].setColor(Color.BLACK);
 		input[j].setYY(input[j - increment].getYY());
 		input[j - increment].setXX(tmpFrom);
+		input[j].setColor(new Color(0, 102, 153));
+		input[j - increment].setColor(new Color(0, 102, 153));
 		j = j - increment;
 		visualizer.getFrmAlgo().repaint();
 		return j;
@@ -253,6 +257,10 @@ public class AlgoHelper {
 		this.qs = _lines;
 		int length = _lines.length;
 		_quickSort(0, length - 1, _lines);
+		finallyColor(_lines);
+	}
+
+	private void finallyColor(DrawPanel[] _lines) {
 		for (int i = 0; i < _lines.length; i++) {
 			_lines[i].setColor(new Color(0, 102, 153));
 			pauseThreadIfNeeded();
@@ -276,6 +284,8 @@ public class AlgoHelper {
 			}
 			if (i <= j) {
 				swap(_lines, i, j, ifs++);
+				qs[i].setColor(new Color(0, 102, 153));
+				qs[j].setColor(new Color(0, 102, 153));
 				i++;
 				j--;
 			}
