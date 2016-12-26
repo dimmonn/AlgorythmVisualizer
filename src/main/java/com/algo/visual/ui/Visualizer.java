@@ -386,6 +386,11 @@ public class Visualizer {
 					lblAlgName.setText("Shell Sort");
 					insertRow(new String[] { "Ω(n log(n))", "Θ(n(log(n))^2)", "O(n(log(n))^2)" });
 				}
+				else if (algosAvailable.getSelectedValue().equals("Quick Sort")) {
+					algos = Algos.QUICK;
+					lblAlgName.setText("Quick Sort");
+					insertRow(new String[] { "Ω(n log(n))", "Θ(n(log(n))^2)", "O(n(log(n))^2)" });
+				}
 			}
 
 		});
