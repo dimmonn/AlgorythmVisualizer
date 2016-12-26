@@ -388,7 +388,7 @@ public class Visualizer {
 				} else if (algosAvailable.getSelectedValue().equals("Quick Sort")) {
 					algos = Algos.QUICK;
 					lblAlgName.setText("Quick Sort");
-					insertRow(new String[] { "Ω(n log(n))", "Θ(n(log(n))^2)", "O(n(log(n))^2)" });
+					insertRow(new String[] { "Ω(n log(n))", "Θ(n log(n))", "O(n^2)" });
 				}
 			}
 
@@ -487,7 +487,7 @@ public class Visualizer {
 							algoHelper.bubbleSort(getNumOfOperations(), _lines);
 							followUp(_lines);
 						} else if (algo == Algos.INSERTION) {
-							algoHelper.innsertionSort(numOfOperations, _lines);
+							algoHelper.innsertionSort(_lines);
 							followUp(_lines);
 						} else if (algo == Algos.SHELL) {
 							algoHelper.shell(_lines);

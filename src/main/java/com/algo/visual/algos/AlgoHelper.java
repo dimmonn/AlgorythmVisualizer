@@ -15,7 +15,7 @@ public class AlgoHelper {
 	private AtomicInteger[] _sortable;
 	private AtomicInteger[] helper;
 	private static final Logger LOGGER = Logger.getLogger(AlgoHelper.class.getName());
-	private int ops, swaps;
+	private int ops, ifs;
 	private DrawPanel[] qs;
 
 	public AlgoHelper(Visualizer visualizer) {
@@ -29,13 +29,14 @@ public class AlgoHelper {
 		helper = null;
 	}
 
-	public void innsertionSort(JTextArea numOfOperations, final DrawPanel[] input) {
+	public void innsertionSort(final DrawPanel[] input) {
+		startCounter();
 		for (int i = 1; i < input.length; i++) {
 			input[i].setColor(new Color(0, 102, 153));
 			for (int j = i; j > 0; j--) {
-				numOfOperations.setText(String.valueOf(++ops));
+				visualizer.getNumOfOperations().setText(String.valueOf(++ops));
 				if (input[j].getYY() > input[j - 1].getYY()) {
-					swap(input, j - 1, j, swaps++);
+					swap(input, j - 1, j, ifs++);
 				}
 				input[j].setColor(new Color(0, 102, 153));
 			}
@@ -48,7 +49,7 @@ public class AlgoHelper {
 			for (int j = 0; j < _lines.length - 1; j++) {
 				numOfOperations.setText(String.valueOf(++ops));
 				if (_lines[j].getYY() < _lines[j + 1].getYY()) {
-					swap(_lines, j, j + 1, swaps++);
+					swap(_lines, j, j + 1, ifs++);
 				}
 			}
 			_lines[_lines.length - 1 - i].setColor(new Color(0, 102, 153));
@@ -109,8 +110,10 @@ public class AlgoHelper {
 			slowDownAndPauseIfNeeded();
 			visualizer.getNumOfOperations().setText(String.valueOf(++ops));
 			if (helper[i].get() >= helper[j].get()) {
+				visualizer.getNumOfIfs().setText(String.valueOf(++ifs));
 				i = injectValue(i, k);
 			} else {
+				visualizer.getNumOfIfs().setText(String.valueOf(++ifs));
 				j = injectValue(j, k);
 			}
 			k++;
@@ -140,7 +143,7 @@ public class AlgoHelper {
 
 	private int injectValue(int j, int k) {
 		_sortable[k].set(helper[j].get());
-		visualizer.getNumOfIfs().setText(String.valueOf(++swaps));
+		visualizer.getNumOfIfs().setText(String.valueOf(++ifs));
 		j++;
 		getKline(k).setColor(new Color(0, 102, 153));
 		visualizer.getFrmAlgo().repaint();
@@ -157,12 +160,19 @@ public class AlgoHelper {
 		_lines[i] = tmp;
 		int deltaJ = _lines[j].getXX();
 		int deltaI = _lines[i].getXX();
+		_lines[i].setColor(Color.RED);
+		_lines[j].setColor(Color.RED);
 		moveSwap(_lines[j].getAtomicXReference(), _lines[i].getAtomicXReference(), deltaJ, deltaI);
+		_lines[i].setColor(Color.BLUE);
+		_lines[j].setColor(Color.BLUE);
 		visualizer.getNumOfIfs().setText(String.valueOf(swaps));
 	}
 
 	private void moveSwap(AtomicInteger atomicInteger1, AtomicInteger atomicInteger2, int deltaJ, int deltaI) {
-		for (int k = deltaJ; k <= deltaI; k++) {
+
+		for (int k = deltaJ; k <= deltaI; k = (visualizer.getChckbxRandomData().isSelected() && k + 40 < deltaI)
+				? k + 40 : k + 1) {
+
 			slowDownAndPauseIfNeeded();
 			atomicInteger1.set(k);
 			atomicInteger2.set(deltaI - (k - deltaJ));
@@ -182,10 +192,10 @@ public class AlgoHelper {
 
 	public int maintainInc(int increment) {
 		if (increment == 2) {
-			visualizer.getNumOfIfs().setText(String.valueOf(++swaps));
+			visualizer.getNumOfIfs().setText(String.valueOf(++ifs));
 			increment = 1;
 		} else {
-			visualizer.getNumOfIfs().setText(String.valueOf(++swaps));
+			visualizer.getNumOfIfs().setText(String.valueOf(++ifs));
 			increment *= (5.0 / 11);
 		}
 		return increment;
@@ -228,15 +238,20 @@ public class AlgoHelper {
 
 	public void startCounter() {
 		ops = 0;
-		swaps = 0;
+		ifs = 0;
 		visualizer.getNumOfIfs().setText(String.valueOf(0));
 		visualizer.getNumOfOperations().setText(String.valueOf(0));
 	}
 
 	public void quickSort(DrawPanel[] _lines) {
+		startCounter();
 		this.qs = _lines;
 		int length = _lines.length;
 		_quickSort(0, length - 1, _lines);
+		for (int i = 0; i < _lines.length; i++) {
+			_lines[i].setColor(new Color(0, 102, 153));
+			pauseThreadIfNeeded();
+		}
 	}
 
 	private void _quickSort(int lowerIndex, int higherIndex, DrawPanel[] _lines) {
@@ -246,20 +261,27 @@ public class AlgoHelper {
 		qs[lowerIndex + (higherIndex - lowerIndex) / 2].setColor(Color.GREEN);
 		while (i <= j) {
 			while (qs[i].getYY() > pivot) {
+				visualizer.getNumOfOperations().setText(String.valueOf(++ops));
 				i++;
 			}
 			while (qs[j].getYY() < pivot) {
+				visualizer.getNumOfOperations().setText(String.valueOf(++ops));
 				j--;
 			}
 			if (i <= j) {
-				swap(_lines, i, j, swaps++);
+
+				swap(_lines, i, j, ifs++);
 				i++;
 				j--;
 			}
 		}
-		if (lowerIndex < j)
+		if (lowerIndex < j) {
+			visualizer.getNumOfIfs().setText(String.valueOf(++ifs));
 			_quickSort(lowerIndex, j, _lines);
-		if (i < higherIndex)
+		}
+		if (i < higherIndex) {
+			visualizer.getNumOfIfs().setText(String.valueOf(++ifs));
 			_quickSort(i, higherIndex, _lines);
+		}
 	}
 }
