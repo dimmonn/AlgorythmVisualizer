@@ -177,7 +177,6 @@ public class AlgoHelper {
 
 		for (int k = deltaJ; k <= deltaI; k = (visualizer.getChckbxRandomData().isSelected() && k + 40 < deltaI)
 				? k + 40 : k + 1) {
-
 			slowDownAndPauseIfNeeded();
 			atomicInteger1.set(k);
 			atomicInteger2.set(deltaI - (k - deltaJ));
@@ -189,10 +188,6 @@ public class AlgoHelper {
 		while (increment > 0) {
 			visualizer.getNumOfOperations().setText(String.valueOf(++ops));
 			for (int i = increment; i < input.length; i++) {
-				System.out.println(increment);
-				if (increment == 2) {
-					input[i].setColor(new Color(0, 102, 153));
-				}
 				visualizer.getNumOfOperations().setText(String.valueOf(++ops));
 				loopAndIncChange(input, increment, i);
 			}
@@ -238,6 +233,8 @@ public class AlgoHelper {
 	}
 
 	public void moveLineShell(final DrawPanel[] input, int increment, int j, int tmpFrom, int tmpTo) {
+		input[j - increment].setColor(Color.RED);
+		input[j].setColor(Color.RED);
 		for (int k = tmpFrom; k <= tmpTo; k = (!visualizer.getChckbxRandomData().isSelected()) ? k + 1 : k + 40) {
 			slowDownAndPauseIfNeeded();
 			input[j - increment].setXX(k);
