@@ -200,11 +200,9 @@ public class Visualizer {
 				data.forEach(d -> {
 					for (int i = 0; i < d.length(); i++) {
 						if (!Character.isDigit(d.charAt(i))) {
-							JOptionPane optionPane = new JOptionPane();
-							JDialog dialog = optionPane.createDialog("Warning");
-							dialog.setAlwaysOnTop(false);
-							dialog.setVisible(true);
-							isAllowed.set(false);
+							JOptionPane.showMessageDialog(new JFrame(),
+									"Input data is wrong, comma-separated integers are allowed", "Warning",
+									JOptionPane.WARNING_MESSAGE);
 						}
 					}
 				});
