@@ -132,7 +132,7 @@ public class Visualizer {
 				run.setEnabled(true);
 				inputData.setEditable(false);
 				getFrmAlgo().setResizable(false);
-				for (int i = 0; i < getFrmAlgo().getWidth() - 130; i = i + 3) {
+				for (int i = 0; i < getFrmAlgo().getWidth() - 130; i = i + 2) {
 					DrawPanel drawPanel = new DrawPanel();
 					getLines().add(drawPanel);
 
@@ -354,7 +354,7 @@ public class Visualizer {
 
 	private void fillInRandomData() {
 		for (int i = 0; i < getLines().size(); i++) {
-			int x = 20 + i * 3;
+			int x = 20 + i * 2;
 			int y = getFrmAlgo().getHeight() - 360
 					- ((getFrmAlgo().getHeight() - 360) * new Random().nextInt(getFrmAlgo().getHeight() - 360))
 							/ (getFrmAlgo().getHeight() - 360)
