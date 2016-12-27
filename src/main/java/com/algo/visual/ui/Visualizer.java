@@ -119,8 +119,8 @@ public class Visualizer {
 
 		configBorder.setBounds(12, 13, 1550, 223);
 
-		mainBorder.setBounds(12, 255, getFrmAlgo().getWidth() - 50, (int) (getFrmAlgo().getHeight() - 300));
-		mainPannel.setBounds(105, 27, getFrmAlgo().getWidth() - 75, (int) (getFrmAlgo().getHeight() - 340));
+		mainBorder.setBounds(12, 255, 1550, 587);
+		mainPannel.setBounds(12, 13, getFrmAlgo().getWidth() - 75, (int) (getFrmAlgo().getHeight() - 340));
 
 		chckbxRandomData.setBounds(6, 121, 112, 35);
 
