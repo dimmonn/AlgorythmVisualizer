@@ -16,7 +16,7 @@ public class DrawPanel extends JPanel {
 	private AtomicInteger atomicYReference = new AtomicInteger();
 
 	public DrawPanel() {
-		this.color = Color.BLUE;
+		this.color =  Color.BLUE;
 	}
 
 	public DrawPanel(DrawPanel d) {
@@ -64,6 +64,8 @@ public class DrawPanel extends JPanel {
 		g2.setStroke(new BasicStroke(1));
 		g2.setColor(color);
 		g2.draw(new Line2D.Float(atomicXReference.get(), atomicYReference.get(), atomicXReference.get(),
+				SwingUtilities.getWindowAncestor(this).getHeight() - 260));
+		g2.draw(new Line2D.Float(atomicXReference.get() + 1, atomicYReference.get(), atomicXReference.get() + 1,
 				SwingUtilities.getWindowAncestor(this).getHeight() - 260));
 	}
 }
