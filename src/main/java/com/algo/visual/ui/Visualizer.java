@@ -188,7 +188,7 @@ public class Visualizer {
 					mainPannel.add(getLines().get(i));
 					mainPannel.validate();
 					mainPannel.repaint();
-					int x = 21 * i * (getFrmAlgo().getWidth() - 50) / (22 * _data.size());
+					int x = 21 * (i + 1) * (getFrmAlgo().getWidth() - 50) / (22 * _data.size());
 					int _y = getFrmAlgo().getHeight() - 360 - ((getFrmAlgo().getHeight() - 360) * _data.get(i)) / max
 							+ 20;
 					getLines().get(i).setXX(x);
