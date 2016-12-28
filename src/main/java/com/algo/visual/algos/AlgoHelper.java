@@ -168,8 +168,6 @@ public class AlgoHelper {
 		_lines[i].setColor(Color.RED);
 		_lines[j].setColor(Color.RED);
 		moveSwap(_lines[j].getAtomicXReference(), _lines[i].getAtomicXReference(), deltaJ, deltaI);
-		_lines[i].setColor(Color.BLUE);
-		_lines[j].setColor(Color.BLUE);
 		visualizer.getNumOfIfs().setText(String.valueOf(swaps));
 	}
 
@@ -222,6 +220,8 @@ public class AlgoHelper {
 	public int incCompareAndChange(final DrawPanel[] input, int increment, int j) {
 		int tmpFrom = input[j - increment].getXX();
 		int tmpTo = input[j].getXX();
+		input[j - increment].setColor(Color.BLACK);
+		input[j].setColor(Color.BLACK);
 		moveLineShell(input, increment, j, tmpFrom, tmpTo);
 		input[j].setYY(input[j - increment].getYY());
 		input[j - increment].setXX(tmpFrom);
@@ -233,8 +233,6 @@ public class AlgoHelper {
 	}
 
 	public void moveLineShell(final DrawPanel[] input, int increment, int j, int tmpFrom, int tmpTo) {
-		input[j - increment].setColor(Color.BLACK);
-		input[j].setColor(Color.BLACK);
 		for (int k = tmpFrom; k <= tmpTo; k = (!visualizer.getChckbxRandomData().isSelected()) ? k + 1 : k + 40) {
 			slowDownAndPauseIfNeeded();
 			input[j - increment].setXX(k);
