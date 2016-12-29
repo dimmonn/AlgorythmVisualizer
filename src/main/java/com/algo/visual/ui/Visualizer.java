@@ -162,6 +162,7 @@ public class Visualizer {
 		inputData.setBounds(126, 76, 519, 33);
 		inputData.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				chckbxRandomData.setSelected(false);
 				getFrmAlgo().setResizable(false);
 				getLines().clear();
 				mainPannel.removeAll();

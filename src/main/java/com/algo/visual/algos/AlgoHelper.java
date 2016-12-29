@@ -165,8 +165,6 @@ public class AlgoHelper {
 		_lines[i] = tmp;
 		int deltaJ = _lines[j].getXX();
 		int deltaI = _lines[i].getXX();
-		_lines[i].setColor(Color.RED);
-		_lines[j].setColor(Color.RED);
 		moveSwap(_lines[j].getAtomicXReference(), _lines[i].getAtomicXReference(), deltaJ, deltaI);
 		visualizer.getNumOfIfs().setText(String.valueOf(swaps));
 	}
@@ -212,6 +210,7 @@ public class AlgoHelper {
 			pauseThreadIfNeeded();
 			visualizer.getNumOfOperations().setText(String.valueOf(++ops));
 			j = incCompareAndChange(input, increment, j);
+
 		}
 		input[j].setYY(temp.getYY());
 		visualizer.getFrmAlgo().repaint();
@@ -220,24 +219,25 @@ public class AlgoHelper {
 	public int incCompareAndChange(final DrawPanel[] input, int increment, int j) {
 		int tmpFrom = input[j - increment].getXX();
 		int tmpTo = input[j].getXX();
-		input[j - increment].setColor(Color.BLACK);
-		input[j].setColor(Color.BLACK);
+
 		moveLineShell(input, increment, j, tmpFrom, tmpTo);
 		input[j].setYY(input[j - increment].getYY());
 		input[j - increment].setXX(tmpFrom);
-		input[j].setColor(new Color(0, 102, 153));
-		input[j - increment].setColor(new Color(0, 102, 153));
 		j = j - increment;
 		visualizer.getFrmAlgo().repaint();
 		return j;
 	}
 
 	public void moveLineShell(final DrawPanel[] input, int increment, int j, int tmpFrom, int tmpTo) {
+		input[j - increment].setColor(new Color(160, 160, 114));
+		input[j].setColor(new Color(160, 160, 114));
 		for (int k = tmpFrom; k <= tmpTo; k = (!visualizer.getChckbxRandomData().isSelected()) ? k + 1 : k + 40) {
 			slowDownAndPauseIfNeeded();
 			input[j - increment].setXX(k);
 			visualizer.getFrmAlgo().repaint();
 		}
+		input[j].setColor(new Color(0, 102, 153));
+		input[j - increment].setColor(new Color(0, 102, 153));
 	}
 
 	public void startCounter() {
