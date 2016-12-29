@@ -219,7 +219,6 @@ public class AlgoHelper {
 	public int incCompareAndChange(final DrawPanel[] input, int increment, int j) {
 		int tmpFrom = input[j - increment].getXX();
 		int tmpTo = input[j].getXX();
-
 		moveLineShell(input, increment, j, tmpFrom, tmpTo);
 		input[j].setYY(input[j - increment].getYY());
 		input[j - increment].setXX(tmpFrom);
