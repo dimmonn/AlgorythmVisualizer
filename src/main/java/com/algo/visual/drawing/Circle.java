@@ -15,7 +15,6 @@ public class Circle extends JPanel {
 	public Circle(int x, int y) {
 		this.x = x;
 		this.y = y;
-		setLocation(x, y);
 	}
 
 	public void paint(Graphics g) {
