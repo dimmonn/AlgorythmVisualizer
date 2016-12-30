@@ -217,7 +217,7 @@ public class AlgoHelper {
 	}
 
 	private void extraDelayForShell() {
-		for (int k = 0; k < 10; k++) {
+		for (int k = 0; k < 5; k++) {
 			slowDownAndPauseIfNeeded();
 		}
 	}
