@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 import java.awt.Toolkit;
 import com.algo.visual.algos.AlgoHelper;
 import com.algo.visual.algos.Algos;
+import com.algo.visual.drawing.Circle;
 import com.algo.visual.drawing.DrawPanel;
 import java.awt.SystemColor;
 import java.awt.BorderLayout;
@@ -120,6 +121,16 @@ public class Visualizer {
 		configBorder.setBounds(12, 13, 1550, 223);
 
 		mainBorder.setBounds(12, 255, 1550, 587);
+		mainPannel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("test " + e.getX() + " " + e.getY());
+				Circle circle = new Circle(e.getX(), e.getY());
+				mainPannel.add(circle, BorderLayout.CENTER);
+				getFrmAlgo().revalidate();
+				getFrmAlgo().repaint();
+			}
+		});
 		mainPannel.setBounds(12, 13, getFrmAlgo().getWidth() - 75, (int) (getFrmAlgo().getHeight() - 340));
 
 		chckbxRandomData.setBounds(6, 121, 112, 35);
