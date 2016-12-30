@@ -216,6 +216,12 @@ public class AlgoHelper {
 		visualizer.getFrmAlgo().repaint();
 	}
 
+	private void extraDelayForShell() {
+		for (int k = 0; k < 10; k++) {
+			slowDownAndPauseIfNeeded();
+		}
+	}
+
 	public int incCompareAndChange(final DrawPanel[] input, int increment, int j) {
 		int tmpFrom = input[j - increment].getXX();
 		int tmpTo = input[j].getXX();
@@ -230,6 +236,7 @@ public class AlgoHelper {
 	public void moveLineShell(final DrawPanel[] input, int increment, int j, int tmpFrom, int tmpTo) {
 		input[j - increment].setColor(new Color(160, 160, 114));
 		input[j].setColor(new Color(160, 160, 114));
+		extraDelayForShell();
 		for (int k = tmpFrom; k <= tmpTo; k = (!visualizer.getChckbxRandomData().isSelected()) ? k + 1 : k + 40) {
 			slowDownAndPauseIfNeeded();
 			input[j - increment].setXX(k);
