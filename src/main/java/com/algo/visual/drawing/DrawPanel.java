@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 public class DrawPanel extends JPanel {
-	private static final long serialVersionUID = 1L;
 	private Color color;
 	private AtomicInteger atomicXReference = new AtomicInteger();
 	private AtomicInteger atomicYReference = new AtomicInteger();
@@ -36,10 +35,6 @@ public class DrawPanel extends JPanel {
 
 	public void setColor(Color color) {
 		this.color = color;
-	}
-
-	public int getHHeight() {
-		return this.getHeight() - 40 - getYY();
 	}
 
 	public void setXX(int x) {

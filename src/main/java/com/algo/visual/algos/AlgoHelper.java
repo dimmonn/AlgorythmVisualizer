@@ -233,15 +233,15 @@ public class AlgoHelper {
     }
 
     private void moveLineShell(final DrawPanel[] input, int increment, int j, int tmpFrom, int tmpTo) {
-        input[j - increment].setColor(new Color(255, 254, 89));
-        input[j].setColor(new Color(255, 254, 89));
+        input[j - increment].setColor(new Color(255, 141, 4));
+        input[j].setColor(new Color(255, 141, 4));
         for (int k = tmpFrom; k <= tmpTo; k = (!visualizer.getChckbxRandomData().isSelected()) ? k + 1 : k + 10) {
             slowDownAndPauseIfNeeded();
             input[j - increment].setXX(k);
             visualizer.getFrmAlgo().repaint();
         }
-        input[j].setColor(new Color(249, 13, 23));
-        input[j - increment].setColor(new Color(3, 153, 16));
+        input[j].setColor(new Color(0, 0, 0));
+        input[j - increment].setColor(new Color(249, 13, 23));
     }
 
     private void startCounter() {
