@@ -7,12 +7,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class AlgoHelperTest {
 
-    AtomicInteger[] _sortable;
-    AlgoHelper algoHelper;
+    private AtomicInteger[] _sortable;
+    private AlgoHelper algoHelper;
 
     @BeforeEach
     void setUp() {
