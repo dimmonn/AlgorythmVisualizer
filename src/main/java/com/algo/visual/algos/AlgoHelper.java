@@ -162,7 +162,11 @@ public class AlgoHelper {
     }
 
     private DrawPanel getKline(int k) {
-        return visualizer.getLines().toArray(new DrawPanel[visualizer.getLines().size()])[k];
+        if (!visualizer.getLines().isEmpty()) {
+            return visualizer.getLines().toArray(new DrawPanel[visualizer.getLines().size()])[k];
+        } else {
+            return new DrawPanel();
+        }
     }
 
     private void swap(final DrawPanel[] _lines, int i, int j, int swaps) {

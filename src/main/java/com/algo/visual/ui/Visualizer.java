@@ -99,7 +99,7 @@ public class Visualizer {
 	 * 
 	 * @wbp.parser.entryPoint
 	 */
-	private Visualizer() {
+	public Visualizer() {
 		initialize();
 	}
 
