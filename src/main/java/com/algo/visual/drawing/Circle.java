@@ -3,14 +3,14 @@ package com.algo.visual.drawing;
 import javax.swing.*;
 import java.awt.*;
 
-public class Circle extends JPanel {
+class Circle extends JPanel {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int x;
-	private int y;
+	private final int x;
+	private final int y;
 
 	public Circle(int x, int y) {
 		this.x = x;

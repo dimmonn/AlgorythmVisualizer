@@ -1,6 +1,6 @@
 package com.algo.visual.graph;
 
-public class Edge {
+class Edge {
 	private final Vertex source;
 	private final Vertex destination;
 
