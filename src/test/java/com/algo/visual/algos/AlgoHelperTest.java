@@ -2,18 +2,18 @@ package com.algo.visual.algos;
 
 import com.algo.visual.ui.Visualizer;
 import org.junit.Assert;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-class AlgoHelperTest {
+public class AlgoHelperTest {
 
     private AtomicInteger[] _sortable;
     private AlgoHelper algoHelper;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         _sortable = new AtomicInteger[6];
         AtomicInteger _tmp0 = new AtomicInteger();
         _tmp0.set(4);
@@ -38,7 +38,7 @@ class AlgoHelperTest {
     }
 
     @Test
-    void mergeSort() {
+   public void mergeSort() {
         algoHelper.mergeSort(_sortable);
         Assert.assertEquals(20, _sortable[0].get());
         Assert.assertEquals(6, _sortable[1].get());
