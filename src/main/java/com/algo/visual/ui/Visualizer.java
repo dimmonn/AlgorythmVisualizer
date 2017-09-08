@@ -318,7 +318,7 @@ public class Visualizer {
 		});
 		frame.getContentPane().setLayout(null);
 		setFrmAlgo(frame);
-		getFrmAlgo().getContentPane().setBackground(new Color(240, 232, 208));
+		getFrmAlgo().getContentPane().setBackground(new Color(124, 111, 86));
 		getFrmAlgo().setAlwaysOnTop(false);
 		getFrmAlgo().setIconImage(
 				Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("algo.png")));
