@@ -232,8 +232,8 @@ public class AlgoHelper {
     }
 
     private void moveLineShell(final DrawPanel[] input, int increment, int j, int tmpFrom, int tmpTo) {
-        input[j - increment].setColor(new Color(244, 176, 16));
-        input[j].setColor(new Color(244, 176, 16));
+        input[j - increment].setColor(new Color(244, 142, 5));
+        input[j].setColor(new Color(244, 142, 5));
         for (int k = tmpFrom; k <= tmpTo; k = (!visualizer.getChckbxRandomData().isSelected()) ? k + 1 : k + 10) {
             slowDownAndPauseIfNeeded();
             input[j - increment].setXX(k);
