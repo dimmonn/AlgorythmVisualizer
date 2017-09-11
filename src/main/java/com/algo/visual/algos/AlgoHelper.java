@@ -60,6 +60,7 @@ public class AlgoHelper {
         _lines[0].setColor(new Color(0, 102, 153));
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
     private void pauseThreadIfNeeded() {
         while (visualizer.isToBePaused()) {
         }

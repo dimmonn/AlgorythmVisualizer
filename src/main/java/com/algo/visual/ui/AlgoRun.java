@@ -10,8 +10,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
-public final class AlgoRun implements ActionListener {
-    private Visualizer visualizer;
+final class AlgoRun implements ActionListener {
+    private final Visualizer visualizer;
 
     public AlgoRun(Visualizer visualizer) {
         this.visualizer = visualizer;
@@ -35,7 +35,7 @@ public final class AlgoRun implements ActionListener {
         }
     }
 
-    void doWork(final DrawPanel[] _lines, Algos algo) {
+    private void doWork(final DrawPanel[] _lines, Algos algo) {
         new Thread(new Runnable() {
             public void run() {
                 visualizer.inputData.setEditable(false);
