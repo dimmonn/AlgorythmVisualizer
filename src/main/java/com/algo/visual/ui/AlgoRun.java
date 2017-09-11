@@ -45,23 +45,7 @@ final class AlgoRun implements ActionListener {
                     visualizer.setToBePaused(false);
                     Visualizer.LOGGER.log(Level.INFO, Thread.currentThread().getName() + " started an slgorithm");
                     visualizer.setRunning(true);
-                    if (algo == Algos.BUBBLE) {
-                        visualizer.algoHelper.bubbleSort(visualizer.getNumOfOperations(), _lines);
-                        followUp(_lines);
-                    } else if (algo == Algos.INSERTION) {
-                        visualizer.algoHelper.innsertionSort(_lines);
-                        followUp(_lines);
-                    } else if (algo == Algos.SHELL) {
-                        visualizer.algoHelper.shell(_lines);
-                        followUp(_lines);
-                    } else if (algo == Algos.MERGE) {
-                        AtomicInteger[] _sortable = linesToYaxisData();
-                        visualizer.algoHelper.mergeSort(_sortable);
-                        followUp(_lines);
-                    } else if (algo == Algos.QUICK) {
-                        visualizer.algoHelper.quickSort(_lines);
-                        followUp(_lines);
-                    }
+                    defineSortingAlgoAndMaintainUiLines();
                     Visualizer.LOGGER.log(Level.INFO, Thread.currentThread().getName() + " stopped an algorithm");
                     visualizer.inputData.setEditable(true);
                     visualizer.algosAvailable.setEnabled(true);
@@ -72,6 +56,26 @@ final class AlgoRun implements ActionListener {
 
                 }
 
+            }
+
+            private void defineSortingAlgoAndMaintainUiLines() {
+                if (algo == Algos.BUBBLE) {
+                    visualizer.algoHelper.bubbleSort(visualizer.getNumOfOperations(), _lines);
+                    followUp(_lines);
+                } else if (algo == Algos.INSERTION) {
+                    visualizer.algoHelper.innsertionSort(_lines);
+                    followUp(_lines);
+                } else if (algo == Algos.SHELL) {
+                    visualizer.algoHelper.shell(_lines);
+                    followUp(_lines);
+                } else if (algo == Algos.MERGE) {
+                    AtomicInteger[] _sortable = linesToYaxisData();
+                    visualizer.algoHelper.mergeSort(_sortable);
+                    followUp(_lines);
+                } else if (algo == Algos.QUICK) {
+                    visualizer.algoHelper.quickSort(_lines);
+                    followUp(_lines);
+                }
             }
 
             AtomicInteger[] linesToYaxisData() {
