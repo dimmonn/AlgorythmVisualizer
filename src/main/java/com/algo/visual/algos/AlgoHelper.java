@@ -240,8 +240,8 @@ public class AlgoHelper {
             input[j - increment].setXX(k);
             visualizer.getFrmAlgo().repaint();
         }
-        input[j].setColor(new Color(187, 22, 255));
-        input[j - increment].setColor(new Color(19, 137, 255));
+        input[j].setColor(new Color(244, 0, 10));
+        input[j - increment].setColor(new Color(0, 200, 48));
     }
 
     private void startCounter() {
