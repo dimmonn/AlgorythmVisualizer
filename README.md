@@ -8,6 +8,6 @@ https://github.com/dimmonn/AlgorythmVisualizer/releases
 
 #Running
 
-wget https://github.com/dimmonn/AlgorythmVisualizer/releases/download/1.0/visualizer-Version.jar
+wget https://github.com/dimmonn/AlgorythmVisualizer/releases/download/1.0/visualizer-1.0.jar
 
 java -jar visualizer-Version.jar
